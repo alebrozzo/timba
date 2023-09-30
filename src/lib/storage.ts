@@ -15,5 +15,6 @@ export const getAllTimba = (): Timba => {
 }
 
 export const saveAllTimba = (timba: Timba) => {
-  localStorage.setItem(TIMBA_STORAGE, JSON.stringify(timba))
+  const safeTimba = { ...emptyTimba, ...timba }
+  localStorage.setItem(TIMBA_STORAGE, JSON.stringify(safeTimba))
 }
