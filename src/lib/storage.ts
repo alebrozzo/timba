@@ -1,4 +1,4 @@
-import type { Timba } from "./types"
+import type { DiceSet, Timba } from "./types"
 
 const TIMBA_STORAGE = "TimbaData"
 
@@ -27,4 +27,11 @@ export const getAllTimba = (): Timba => {
 export const saveAllTimba = (timba: Timba) => {
   const safeTimba = { ...emptyTimba, ...timba }
   localStorage.setItem(TIMBA_STORAGE, JSON.stringify(safeTimba))
+}
+
+export const saveNewDiceSet = (diceSet: DiceSet) => {
+  const timba = getAllTimba()
+  // TODO: validate name is not repeated
+  timba.diceSets = [...timba.diceSets, diceSet]
+  saveAllTimba(timba)
 }

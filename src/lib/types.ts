@@ -6,7 +6,7 @@ export type Timba = {
 
 export type Die = {
   faces: number
-  name: string | null
+  name?: string
 }
 
 export type DiceSet = {
