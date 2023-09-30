@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: gray;
+}
+
+.button {
+  display: inline-block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: yellow;
+  background-color: black;
+  width: 100%;
+  /* border-radius: 6px; */
+  outline: none;
+  transition: 0.3s;
+  /* border: 2px solid transparent; */
+  font-size: xx-large;
+}
+
+.button:hover,
+.button:focus {
+  background-color: dimgray;
+  border-color: #7aa8b7;
+  color: ghostwhite;
+}
