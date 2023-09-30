@@ -1,1 +1,3 @@
-<h1>Dice!</h1>
+<div class="button-container">
+  <a class="button" href="/">Home</a>
+</div>
