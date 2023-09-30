@@ -2,16 +2,26 @@ import type { Timba } from "./types"
 
 const TIMBA_STORAGE = "TimbaData"
 
-const emptyTimba: Timba = {
+export const emptyTimba: Timba = {
   diceSets: [],
   cardSet: [],
   numberSet: [],
 }
 
 export const getAllTimba = (): Timba => {
+  let timba: Timba = { ...emptyTimba }
   const timbaStr = localStorage.getItem(TIMBA_STORAGE) ?? ""
-  const timba = JSON.parse(timbaStr)
-  return timba ?? emptyTimba
+  if (!timbaStr) {
+    return timba
+  }
+
+  try {
+    timba = JSON.parse(timbaStr)
+  } catch (error) {
+    console.warn(TIMBA_STORAGE + " is not valid")
+  }
+
+  return timba
 }
 
 export const saveAllTimba = (timba: Timba) => {

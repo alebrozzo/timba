@@ -9,9 +9,12 @@ export type Die = {
   name: string | null
 }
 
-export type DiceSet = [
-  {
-    type: Die
-    count: number
-  }
-]
+export type DiceSet = {
+  name: string
+  dice: [
+    {
+      type: Die
+      count: number
+    }
+  ]
+}
