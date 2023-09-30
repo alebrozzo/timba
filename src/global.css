@@ -4,6 +4,16 @@ body {
   background-color: gray;
 }
 
+.display-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container {
+  margin: 0.5rem;
+  gap:0.5rem
+}
+
 .button {
   display: inline-block;
   padding-top: 1rem;
