@@ -1,6 +1,6 @@
 <div class="button-container">
   <a class="button" href="/">Home</a>
-  <a class="button" href="/">Back</a>
+  <a class="button" href="/dice">Back</a>
 </div>
 
 <div class="display-vertical editor-container">
