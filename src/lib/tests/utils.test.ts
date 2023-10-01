@@ -29,8 +29,6 @@ beforeEach(() => {
 describe("validateNewDiceSet", () => {
   it("passes when proper name", () => {
     const newSet = getDiceSet({ name: "Generala" })
-    console.log({ newSet })
-
     const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
     expect(validationErrors).not.toBeNull()
     expect(validationErrors.length).toBe(0)
