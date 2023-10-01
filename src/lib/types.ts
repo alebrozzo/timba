@@ -18,6 +18,8 @@ export type DiceSet = {
 }
 
 export enum ErrorCode {
+  "NoName",
   "DupeName",
+  "NoDice",
   "Other",
 }

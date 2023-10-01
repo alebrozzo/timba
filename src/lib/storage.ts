@@ -1,5 +1,5 @@
 import type { DiceSet, Timba } from "./types"
-import { validateNewDiceSet } from "./utils"
+import { getSlug, validateNewDiceSet } from "./utils"
 
 const TIMBA_STORAGE = "TimbaData"
 
@@ -42,5 +42,26 @@ export function saveNewDiceSet(diceSet: DiceSet) {
   }
 
   timba.diceSets = [...timba.diceSets, diceSet]
+  saveAllTimba(timba)
+}
+
+export function getDiceSet(diceSetSlug: string) {
+  const timba = getAllTimba()
+  const set = timba.diceSets.filter((x) => getSlug(x.name) === diceSetSlug)
+  if (set.length === 0) {
+    console.warn(diceSetSlug + " did not exist in the database")
+  }
+
+  return set[0]
+}
+
+export function deleteDiceSet(diceSetName: string) {
+  const timba = getAllTimba()
+  const originalCount = timba.diceSets.length
+  timba.diceSets = [...timba.diceSets.filter((x) => x.name !== diceSetName)]
+  if (originalCount === timba.diceSets.length) {
+    console.warn(diceSetName + " did not exist in the database")
+  }
+
   saveAllTimba(timba)
 }

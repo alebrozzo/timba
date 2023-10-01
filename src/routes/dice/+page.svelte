@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import slugify from "slugify"
   import { getEmptyTimba, getAllTimba } from "$lib/storage"
+  import { getSlug } from "$lib/utils"
 
   let data = getEmptyTimba()
   onMount(async () => {
@@ -15,6 +15,6 @@
 
   {#each data.diceSets as set}
     <!-- TODO: use slug -->
-    <a class="button" href="dice/{slugify(set.name, { lower: true })}">{set.name}</a>
+    <a class="button" href="dice/{getSlug(set.name)}">{set.name}</a>
   {/each}
 </div>
