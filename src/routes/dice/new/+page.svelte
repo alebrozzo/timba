@@ -29,7 +29,7 @@
 <h2>DADOS:</h2>
 
 {#each set.dice as dice}
-  <SetEditor {dice} handleDelete={() => handleDeleteDieType(dice)} />
+  <SetEditor {dice} handleDeleteType={() => handleDeleteDieType(dice)} />
 {/each}
 
 <button type="button" on:click={handleAddDieType}>Add die type</button>
