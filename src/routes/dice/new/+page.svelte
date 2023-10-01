@@ -13,6 +13,10 @@
   function handleSubmit() {
     saveNewDiceSet(set)
   }
+
+  function handleDelete(ix: any) {
+    set = { ...set, dice: set.dice.filter((x) => x !== ix) }
+  }
 </script>
 
 <div class="button-container">
@@ -24,8 +28,8 @@
 
 <h2>DADOS:</h2>
 
-{#each set.dice as dice}
-  <SetEditor {dice} />
+{#each set.dice as dice, ix}
+  <SetEditor {dice} handleDelete={() => handleDelete(dice)} />
 {/each}
 
 <button type="button" on:click={handleAdd}>Add die type</button>
