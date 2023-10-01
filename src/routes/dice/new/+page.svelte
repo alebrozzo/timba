@@ -1,9 +1,14 @@
 <script lang="ts">
   import { saveNewDiceSet } from "$lib/storage"
   import type { DiceSet, Die } from "$lib/types"
+  import SetEditor from "../diceSetEditor.svelte"
 
   let die: Die = { faces: 6 }
-  let set: DiceSet = { name: "", dice: [{ type: die, count: 1 }] }
+  let set: DiceSet = { name: "", dice: [{ type: { ...die }, count: 1 }] }
+
+  function handleAdd() {
+    set = { ...set, dice: [...set.dice, { count: 1, type: { ...die } }] }
+  }
 
   function handleSubmit() {
     saveNewDiceSet(set)
@@ -15,12 +20,14 @@
   <a class="button" href="/dice">Back</a>
 </div>
 
-<div class="display-vertical editor-container">
-  <label>Nombre del set de dados:<input type="text" maxlength="30" bind:value={set.name} /></label>
-  DADOS
-  <label>Cantidad:<input type="number" min="1" bind:value={set.dice[0].count} /></label>
-  <label>Caras:<input type="number" min="1" bind:value={die.faces} /></label>
-  <label>Nombre:<input type="text" maxlength="30" placeholder="(opcional)" bind:value={die.name} /></label>
-</div>
+<label>Nombre del set de dados:<input type="text" maxlength="30" bind:value={set.name} /></label>
 
-<button type="button" on:click={handleSubmit}>Add</button>
+<h2>DADOS:</h2>
+
+{#each set.dice as dice}
+  <SetEditor {dice} />
+{/each}
+
+<button type="button" on:click={handleAdd}>Add die type</button>
+
+<div><button type="button" on:click={handleSubmit}>Save</button></div>
