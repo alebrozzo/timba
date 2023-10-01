@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation"
   import { saveNewDiceSet } from "$lib/storage"
   import type { DiceSet, Die } from "$lib/types"
   import SetEditor from "../diceSetEditor.svelte"
@@ -16,6 +17,7 @@
 
   function handleSaveSet() {
     saveNewDiceSet(set)
+    goto("/dice")
   }
 </script>
 

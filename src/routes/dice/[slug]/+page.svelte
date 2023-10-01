@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { deleteDiceSet, getDiceSet } from "$lib/storage"
   import type { DiceSet, Die } from "$lib/types"
@@ -7,10 +8,10 @@
   const { slug } = $page.params
 
   let set: DiceSet = getDiceSet(slug)
-  console.log({ slug, set })
 
   function handleDeleteSet() {
     deleteDiceSet(set.name)
+    goto("/dice")
   }
 </script>
 
