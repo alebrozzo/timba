@@ -36,7 +36,7 @@ describe("validateNewDiceSet", () => {
     expect(validationErrors.length).toBe(0)
   })
 
-  it("fails when name is duped", () => {
+  it("fails when name is duplicated", () => {
     const newSet = getDiceSet({ name: getDiceSet().name, dice: [] })
     const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
     expect(validationErrors).not.toBeNull()
