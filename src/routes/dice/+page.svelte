@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte"
   import slugify from "slugify"
-  import { emptyTimba, getAllTimba } from "$lib/storage"
+  import { getEmptyTimba, getAllTimba } from "$lib/storage"
 
-  let data = emptyTimba
+  let data = getEmptyTimba()
   onMount(async () => {
     data = getAllTimba()
   })
