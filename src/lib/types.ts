@@ -11,12 +11,13 @@ export type Die = {
 
 export type DiceSet = {
   name: string
-  dice: [
-    {
-      type: Die
-      count: number
-    }
-  ]
+  dice: {
+    type: Die
+    count: number
+  }[]
 }
 
-export type ErrorCode = "DupeName" | "Other"
+export enum ErrorCode {
+  "DupeName",
+  "Other",
+}

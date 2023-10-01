@@ -1,4 +1,4 @@
-import type { DiceSet, ErrorCode } from "./types"
+import { ErrorCode, type DiceSet } from "./types"
 
 export function validateNewDiceSet(set: DiceSet, sets: DiceSet[]): ErrorCode[] {
   const errors: ErrorCode[] = []
@@ -6,13 +6,14 @@ export function validateNewDiceSet(set: DiceSet, sets: DiceSet[]): ErrorCode[] {
     set.name,
     sets.map((x) => x.name)
   )
+
   if (!isNameValid) {
-    errors.push("DupeName")
+    errors.push(ErrorCode.DupeName)
   }
 
   return errors
 }
 
 function validateNameUnique(name: string, names: string[]) {
-  return names.includes(name)
+  return !names.includes(name)
 }
