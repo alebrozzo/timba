@@ -28,7 +28,7 @@
 
 <h2>DADOS:</h2>
 
-{#each set.dice as dice, ix}
+{#each set.dice as dice}
   <SetEditor {dice} handleDelete={() => handleDeleteDieType(dice)} />
 {/each}
 
