@@ -6,16 +6,16 @@
   let die: Die = { faces: 6 }
   let set: DiceSet = { name: "", dice: [{ type: { ...die }, count: 1 }] }
 
-  function handleAdd() {
+  function handleAddDieType() {
     set = { ...set, dice: [...set.dice, { count: 1, type: { ...die } }] }
   }
 
-  function handleSubmit() {
-    saveNewDiceSet(set)
+  function handleDeleteDieType(ix: any) {
+    set = { ...set, dice: set.dice.filter((x) => x !== ix) }
   }
 
-  function handleDelete(ix: any) {
-    set = { ...set, dice: set.dice.filter((x) => x !== ix) }
+  function handleSaveSet() {
+    saveNewDiceSet(set)
   }
 </script>
 
@@ -29,9 +29,9 @@
 <h2>DADOS:</h2>
 
 {#each set.dice as dice, ix}
-  <SetEditor {dice} handleDelete={() => handleDelete(dice)} />
+  <SetEditor {dice} handleDelete={() => handleDeleteDieType(dice)} />
 {/each}
 
-<button type="button" on:click={handleAdd}>Add die type</button>
+<button type="button" on:click={handleAddDieType}>Add die type</button>
 
-<div><button type="button" on:click={handleSubmit}>Save</button></div>
+<div><button type="button" on:click={handleSaveSet}>Save</button></div>
