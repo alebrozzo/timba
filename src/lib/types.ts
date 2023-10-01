@@ -18,3 +18,5 @@ export type DiceSet = {
     }
   ]
 }
+
+export type ErrorCode = "DupeName" | "Other"
