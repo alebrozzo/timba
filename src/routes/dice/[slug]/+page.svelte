@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { deleteDiceSet, getDiceSet } from "$lib/storage"
-  import type { DiceSet, Die } from "$lib/types"
+  import type { DiceSet } from "$lib/types"
   import SetViewer from "../diceSetViewer.svelte"
 
   const { slug } = $page.params
@@ -20,9 +20,9 @@
   <a class="button" href="/dice">Back</a>
 </div>
 
-<p>Nombre del set de dados:{set.name}</p>
+<h2>{set.name}</h2>
 
-<h2>DADOS:</h2>
+<h3>SET</h3>
 
 {#each set.dice as dice}
   <SetViewer {dice} />

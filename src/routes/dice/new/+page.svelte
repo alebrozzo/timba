@@ -26,9 +26,9 @@
   <a class="button" href="/dice">Back</a>
 </div>
 
-<label>Nombre del set de dados:<input type="text" maxlength="30" bind:value={set.name} /></label>
+<label>Dice set name:<input type="text" maxlength="30" bind:value={set.name} /></label>
 
-<h2>DADOS:</h2>
+<h2>Dice:</h2>
 
 {#each set.dice as dice}
   <SetEditor {dice} handleDeleteType={() => handleDeleteDieType(dice)} />
