@@ -1,4 +1,4 @@
-import type { DiceSet, Timba } from "./types"
+import type { DiceSet, ErrorCode, Timba } from "./types"
 import { getSlug, validateNewDiceSet } from "./utils"
 
 const TIMBA_STORAGE = "TimbaData"
@@ -32,17 +32,18 @@ export function saveAllTimba(timba: Timba) {
   localStorage.setItem(TIMBA_STORAGE, JSON.stringify(safeTimba))
 }
 
-export function saveNewDiceSet(diceSet: DiceSet) {
+export function saveNewDiceSet(diceSet: DiceSet): ErrorCode[] {
   const timba = getAllTimba()
 
   const errors = validateNewDiceSet(diceSet, timba.diceSets)
   if (errors.length > 0) {
     console.error("Errors", errors)
-    return
+    return errors
   }
 
   timba.diceSets = [...timba.diceSets, diceSet]
   saveAllTimba(timba)
+  return errors
 }
 
 export function getDiceSet(diceSetSlug: string) {

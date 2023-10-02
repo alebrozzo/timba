@@ -1,22 +1,19 @@
 <script lang="ts">
   import { goto } from "$app/navigation"
-  import { saveNewDiceSet } from "$lib/storage"
   import type { DiceSet, Die } from "$lib/types"
   import SetEditor from "../diceSetEditor.svelte"
+  import { addDieType, deleteDieType, getDefaultDie, saveDiceSet } from "../diceUtils"
 
-  let die: Die = { faces: 6 }
+  let die: Die = getDefaultDie()
   let set: DiceSet = { name: "", dice: [{ type: { ...die }, count: 1 }] }
 
-  function handleAddDieType() {
-    set = { ...set, dice: [...set.dice, { count: 1, type: { ...die } }] }
-  }
+  function handleSaveSet(set: DiceSet) {
+    const saveResult = saveDiceSet(set)
+    if (saveResult.length > 0) {
+      //TODO: show toast
+      return
+    }
 
-  function handleDeleteDieType(ix: any) {
-    set = { ...set, dice: set.dice.filter((x) => x !== ix) }
-  }
-
-  function handleSaveSet() {
-    saveNewDiceSet(set)
     goto("/dice")
   }
 </script>
@@ -31,9 +28,9 @@
 <h2>Dice:</h2>
 
 {#each set.dice as dice}
-  <SetEditor {dice} handleDeleteType={() => handleDeleteDieType(dice)} />
+  <SetEditor {dice} handleDeleteType={() => (set = deleteDieType(set, dice.type))} />
 {/each}
 
-<button type="button" on:click={handleAddDieType}>Add die type</button>
+<button type="button" on:click={() => (set = addDieType(set))}>Add die type</button>
 
-<div><button type="button" on:click={handleSaveSet}>Save</button></div>
+<div><button type="button" on:click={() => handleSaveSet(set)}>Save</button></div>
