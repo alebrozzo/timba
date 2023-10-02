@@ -16,3 +16,6 @@ export function deleteDieType(set: DiceSet, die: Die): DiceSet {
 export function saveDiceSet(set: DiceSet): ErrorCode[] {
   return saveNewDiceSet(set)
 }
+
+export const DICE_EDIT_MODE_CHANGE_EVENT = "DiceEditModeChanged"
+export const DICE_SET_DELETE_EVENT = "DiceSetDeleted"

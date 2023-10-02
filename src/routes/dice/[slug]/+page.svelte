@@ -3,15 +3,22 @@
   import { page } from "$app/stores"
   import { deleteDiceSet, getDiceSet } from "$lib/storage"
   import type { DiceSet } from "$lib/types"
-  import SetViewer from "../diceSetViewer.svelte"
+  import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
+  import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
 
   const { slug } = $page.params
 
   let set: DiceSet = getDiceSet(slug)
 
+  let isEditMode = false
+
   function handleDeleteSet() {
     deleteDiceSet(set.name)
     goto("/dice")
+  }
+
+  function handleEditingStatusChange(e: CustomEvent<{ isEditing: boolean }>) {
+    isEditMode = e.detail.isEditing
   }
 </script>
 
@@ -24,8 +31,12 @@
 
 <h3>SET</h3>
 
-{#each set.dice as dice}
-  <SetViewer {dice} />
-{/each}
-
-<div><button type="button" on:click={handleDeleteSet}>Delete</button></div>
+{#if isEditMode}
+  <DiceSetEditorContainer {set} on:DiceEditModeChanged={handleEditingStatusChange} />
+{:else}
+  <DiceSetViewerContainer
+    {set}
+    on:DiceSetDeleted={handleDeleteSet}
+    on:DiceEditModeChanged={handleEditingStatusChange}
+  />
+{/if}
