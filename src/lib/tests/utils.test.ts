@@ -34,11 +34,38 @@ describe("validateNewDiceSet", () => {
     expect(validationErrors.length).toBe(0)
   })
 
+  it("fails when name is empty", () => {
+    const newSet = getDiceSet({ name: "" })
+    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
+    expect(validationErrors).not.toBeNull()
+    expect(validationErrors.length).toBe(1)
+    expect(validationErrors[0]).toBe(ErrorCode.NoName)
+  })
+
   it("fails when name is duplicated", () => {
-    const newSet = getDiceSet({ name: getDiceSet().name, dice: [] })
+    const newSet = getDiceSet({ name: getDiceSet().name })
     const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
     expect(validationErrors).not.toBeNull()
     expect(validationErrors.length).toBe(1)
     expect(validationErrors[0]).toBe(ErrorCode.DupeName)
+  })
+
+  it("fails when no dice", () => {
+    const newSet = getDiceSet({ name: "Test", dice: [] })
+    console.log({ newSet })
+
+    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
+    expect(validationErrors).not.toBeNull()
+    expect(validationErrors.length).toBe(1)
+    expect(validationErrors[0]).toBe(ErrorCode.NoDice)
+  })
+
+  it("returns more than one error", () => {
+    const newSet = getDiceSet({ name: "", dice: [] })
+    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
+    expect(validationErrors).not.toBeNull()
+    expect(validationErrors.length).toBeGreaterThan(1)
+    expect(validationErrors.includes(ErrorCode.NoName)).toBe(true)
+    expect(validationErrors.includes(ErrorCode.NoDice)).toBe(true)
   })
 })
