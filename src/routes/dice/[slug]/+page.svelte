@@ -29,7 +29,7 @@
 
 <h2>{set.name}</h2>
 
-<h3>SET</h3>
+<h3>Dice:</h3>
 
 {#if isEditMode}
   <DiceSetEditorContainer bind:set on:DiceEditModeChanged={handleEditingStatusChange} />

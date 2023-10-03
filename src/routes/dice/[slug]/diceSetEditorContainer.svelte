@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { DiceSet } from "$lib/types"
   import { createEventDispatcher } from "svelte"
-  import { DICE_EDIT_MODE_CHANGE_EVENT, deleteDieType } from "../../../lib/diceUtils"
+  import { DICE_EDIT_MODE_CHANGE_EVENT } from "../../../lib/diceUtils"
   import DiceSetEditor from "../diceSetEditor.svelte"
   import { saveDiceSet } from "$lib/storage"
 

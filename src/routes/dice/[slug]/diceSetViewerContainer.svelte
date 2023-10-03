@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { DiceSet } from "$lib/types"
   import { createEventDispatcher } from "svelte"
-  import DiceSetViewer from "../diceSetViewer.svelte"
+  import DieTypeViewer from "../dieTypeViewer.svelte"
   import { DICE_EDIT_MODE_CHANGE_EVENT, DICE_SET_DELETE_EVENT } from "../../../lib/diceUtils"
 
   const dispatch = createEventDispatcher()
@@ -17,7 +17,7 @@
 </script>
 
 {#each set.dice as dice}
-  <DiceSetViewer {dice} />
+  <DieTypeViewer {dice} />
 {/each}
 
 <div><button type="button" on:click={handleEditSet}>Edit</button></div>
