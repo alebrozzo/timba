@@ -1,17 +1,13 @@
 <script lang="ts">
-  import type { Die } from "$lib/types"
+  import { addDieType, deleteDieType } from "$lib/diceUtils"
+  import type { DiceSet } from "$lib/types"
+  import DiceTypeEditor from "./diceTypeEditor.svelte"
 
-  export let dice: {
-    type: Die
-    count: number
-  }
-
-  export let handleDeleteType: () => void
+  export let set: DiceSet
 </script>
 
-<div class="display-vertical editor-container">
-  <label>Cantidad:<input type="number" min="1" bind:value={dice.count} /></label>
-  <label>Caras:<input type="number" min="1" bind:value={dice.type.faces} /></label>
-  <label>Nombre:<input type="text" maxlength="30" placeholder="(opcional)" bind:value={dice.type.name} /></label>
-  <button type="button" on:click={handleDeleteType}>Delete</button>
-</div>
+{#each set.dice as dice}
+  <DiceTypeEditor bind:dice handleDeleteType={() => (set = deleteDieType(set, dice.type))} />
+{/each}
+
+<button type="button" on:click={() => (set = addDieType(set))}>Add die type</button>

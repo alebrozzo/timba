@@ -15,10 +15,7 @@
   }
 </script>
 
-{#each editingSet.dice as dice}
-  <DiceSetEditor {dice} handleDeleteType={() => (editingSet = deleteDieType(editingSet, dice.type))} />
-{/each}
-
+<DiceSetEditor bind:set={editingSet} />
 <div>
   <button
     type="button"

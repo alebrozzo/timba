@@ -3,8 +3,7 @@
   import { getNewSet } from "$lib/utils"
   import { goto } from "$app/navigation"
   import type { DiceSet } from "$lib/types"
-  import { addDieType, deleteDieType } from "../../../lib/diceUtils"
-  import SetEditor from "../diceSetEditor.svelte"
+  import DiceSetEditor from "../diceSetEditor.svelte"
 
   let set: DiceSet = getNewSet()
 
@@ -28,10 +27,6 @@
 
 <h2>Dice:</h2>
 
-{#each set.dice as dice}
-  <SetEditor {dice} handleDeleteType={() => (set = deleteDieType(set, dice.type))} />
-{/each}
-
-<button type="button" on:click={() => (set = addDieType(set))}>Add die type</button>
+<DiceSetEditor bind:set />
 
 <div><button type="button" on:click={() => handleSaveSet(set)}>Save</button></div>
