@@ -1,19 +1,19 @@
 <script lang="ts">
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
-  import { deleteDiceSet, getDiceSet } from "$lib/storage"
+  import { deleteDiceSet, getDiceSetBySlug } from "$lib/storage"
   import type { DiceSet } from "$lib/types"
   import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
   import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
 
   const { slug } = $page.params
 
-  let set: DiceSet = getDiceSet(slug)
+  let set: DiceSet = getDiceSetBySlug(slug)
 
   let isEditMode = false
 
   function handleDeleteSet() {
-    deleteDiceSet(set.name)
+    deleteDiceSet(set.id)
     goto("/dice")
   }
 
@@ -32,7 +32,7 @@
 <h3>SET</h3>
 
 {#if isEditMode}
-  <DiceSetEditorContainer {set} on:DiceEditModeChanged={handleEditingStatusChange} />
+  <DiceSetEditorContainer bind:set on:DiceEditModeChanged={handleEditingStatusChange} />
 {:else}
   <DiceSetViewerContainer
     {set}

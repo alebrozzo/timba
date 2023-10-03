@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { DiceSet } from "$lib/types"
   import { createEventDispatcher } from "svelte"
-  import { DICE_EDIT_MODE_CHANGE_EVENT, deleteDieType, saveDiceSet } from "../diceUtils"
+  import { DICE_EDIT_MODE_CHANGE_EVENT, deleteDieType } from "../../../lib/diceUtils"
   import DiceSetEditor from "../diceSetEditor.svelte"
+  import { saveDiceSet } from "$lib/storage"
 
   export let set: DiceSet
 
@@ -31,13 +32,14 @@
     type="button"
     on:click={() => {
       const errors = saveDiceSet(editingSet)
-      // TODO: check errors
+
       if (errors.length > 0) {
         console.log(errors)
-
+        // TODO: toast errors
         return
       }
 
+      set = editingSet
       closeEditor()
     }}>Save</button
   >

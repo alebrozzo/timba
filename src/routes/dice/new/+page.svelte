@@ -1,15 +1,16 @@
 <script lang="ts">
+  import { saveDiceSet } from "$lib/storage"
+  import { getNewSet } from "$lib/utils"
   import { goto } from "$app/navigation"
-  import type { DiceSet, Die } from "$lib/types"
+  import type { DiceSet } from "$lib/types"
+  import { addDieType, deleteDieType } from "../../../lib/diceUtils"
   import SetEditor from "../diceSetEditor.svelte"
-  import { addDieType, deleteDieType, getDefaultDie, saveDiceSet } from "../diceUtils"
 
-  let die: Die = getDefaultDie()
-  let set: DiceSet = { name: "", dice: [{ type: { ...die }, count: 1 }] }
+  let set: DiceSet = getNewSet()
 
   function handleSaveSet(set: DiceSet) {
-    const saveResult = saveDiceSet(set)
-    if (saveResult.length > 0) {
+    const errors = saveDiceSet(set)
+    if (errors.length > 0) {
       //TODO: show toast
       return
     }

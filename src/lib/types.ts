@@ -10,6 +10,7 @@ export type Die = {
 }
 
 export type DiceSet = {
+  id: string
   name: string
   dice: {
     type: Die
