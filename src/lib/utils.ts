@@ -1,6 +1,6 @@
 import slugify from "slugify"
-import { ErrorCode, type DiceSet } from "./types"
 import { getDefaultDie } from "./diceUtils"
+import { ErrorCode, type DiceSet } from "./types"
 
 //TODO: remove "sets" as input parameter and use get endpoint
 export function validateNewDiceSet(set: DiceSet, sets: DiceSet[]): ErrorCode[] {

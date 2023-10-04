@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { DiceSet } from "$lib/types"
   import { createEventDispatcher } from "svelte"
+  import { DICE_EDIT_MODE_CHANGE_EVENT, DICE_SET_DELETE_EVENT } from "$lib/diceUtils"
+  import type { DiceSet } from "$lib/types"
   import DieTypeViewer from "../dieTypeViewer.svelte"
-  import { DICE_EDIT_MODE_CHANGE_EVENT, DICE_SET_DELETE_EVENT } from "../../../lib/diceUtils"
 
   const dispatch = createEventDispatcher()
   export let set: DiceSet

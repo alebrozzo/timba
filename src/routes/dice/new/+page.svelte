@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { saveDiceSet } from "$lib/storage"
-  import { getNewSet } from "$lib/utils"
   import { goto } from "$app/navigation"
+  import { saveDiceSet } from "$lib/storage"
   import type { DiceSet } from "$lib/types"
+  import { getNewSet } from "$lib/utils"
   import DiceSetEditor from "../diceSetEditor.svelte"
 
   let set: DiceSet = getNewSet()

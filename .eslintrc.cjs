@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:svelte/recommended", "prettier"],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "import"],
   parserOptions: {
     sourceType: "module",
     ecmaVersion: 2020,
@@ -22,4 +22,18 @@ module.exports = {
       },
     },
   ],
+  rules: {
+    "import/order": [
+      "warn",
+      {
+        alphabetize: { order: "asc" },
+        pathGroups: [
+          { pattern: "$app/**", group: "external", position: "after" },
+          { pattern: "$lib/**", group: "external", position: "after" },
+        ],
+        groups: ["builtin", "external", "internal", "parent", ["sibling", "index"]],
+        "newlines-between": "never",
+      },
+    ],
+  },
 }
