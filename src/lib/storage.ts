@@ -61,11 +61,12 @@ export function saveDiceSet(diceSet: DiceSet): ErrorCode[] {
   return errors
 }
 
-export function getDiceSetBySlug(diceSetSlug: string) {
+export function getDiceSetBySlug(diceSetSlug: string): DiceSet | null {
   const timba = getAllTimba()
   const set = timba.diceSets.filter((x) => getSlug(x.name) === diceSetSlug)
   if (set.length === 0) {
     console.warn(diceSetSlug + " did not exist in the database")
+    return null
   }
 
   if (set.length > 1) {

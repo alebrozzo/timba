@@ -1,4 +1,4 @@
-import type { DiceSet } from "./types"
+import type { DiceSet } from "$lib/types"
 
 export function getDiceCollection() {
   return [getDiceSet()]
