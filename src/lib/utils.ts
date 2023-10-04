@@ -12,6 +12,7 @@ export function validateNewDiceSet(set: DiceSet, sets: DiceSet[]): ErrorCode[] {
   } else {
     const otherSetsNames = sets.filter((x) => x.id !== set.id).map((x) => x.name)
     const isNameValid = validateNameUnique(set.name, otherSetsNames)
+
     if (!isNameValid) {
       errors.push(ErrorCode.DupeName)
     }
