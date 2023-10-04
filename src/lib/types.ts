@@ -1,7 +1,7 @@
 export type Timba = {
   diceSets: DiceSet[]
-  cardSet: []
-  numberSet: []
+  cardSet: TimbaSet[] // TODO
+  numberSet: TimbaSet[]
 }
 
 export type Die = {
@@ -9,9 +9,12 @@ export type Die = {
   name?: string
 }
 
-export type DiceSet = {
+export type TimbaSet = {
   id: string
   name: string
+}
+
+export type DiceSet = TimbaSet & {
   dice: {
     type: Die
     count: number
