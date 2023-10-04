@@ -54,9 +54,8 @@ describe("validateNewDiceSet", () => {
 
   it("fails when no dice", () => {
     const newSet = getDiceSet({ name: "Test", dice: [] })
-    console.log({ newSet })
-
     const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
+
     expect(validationErrors).not.toBeNull()
     expect(validationErrors.length).toBe(1)
     expect(validationErrors[0]).toBe(ErrorCode.NoDice)
