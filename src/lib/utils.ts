@@ -30,7 +30,7 @@ function validateNameUnique(name: DiceSet["name"], names: DiceSet["name"][]) {
 }
 
 export function getSlug(value: string) {
-  return slugify(value, { lower: true })
+  return slugify(value, { lower: true, strict: true })
 }
 
 export function getNewSet(): DiceSet {
