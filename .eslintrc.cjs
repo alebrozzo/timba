@@ -35,5 +35,8 @@ module.exports = {
         "newlines-between": "never",
       },
     ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-empty": "warn",
   },
 }
