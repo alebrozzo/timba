@@ -12,7 +12,6 @@ export type DieResult = {
 }
 
 export function rollDice(set: DiceSet): RollResult[] {
-  console.log(set)
   const rollResults: RollResult[] = []
   for (const dieType of set.dice) {
     const dieTypeResults: DieResult[] = []
