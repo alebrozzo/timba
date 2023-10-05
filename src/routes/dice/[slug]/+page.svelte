@@ -2,13 +2,15 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { deleteDiceSet, getDiceSetBySlug } from "$lib/storage"
-  import type { DiceSet } from "$lib/types"
   import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
   import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
 
   const { slug } = $page.params
 
-  let set: DiceSet = getDiceSetBySlug(slug)
+  let set = getDiceSetBySlug(slug)!
+  if (!set) {
+    goto("/oops")
+  }
 
   let isEditMode = false
 

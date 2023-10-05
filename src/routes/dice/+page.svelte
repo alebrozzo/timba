@@ -14,7 +14,6 @@
   <a class="button" href="dice/new">New</a>
 
   {#each data.diceSets as set}
-    <!-- TODO: use slug -->
     <a class="button" href="dice/{getSlug(set.name)}">{set.name}</a>
   {/each}
 </div>
