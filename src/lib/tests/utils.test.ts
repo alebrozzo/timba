@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest"
 import { ErrorCode, type DiceSet } from "$lib/types"
-import { getNewSet, getSlug, validateNewDiceSet } from "$lib/utils"
+import { getNewSet, getRandomNumber, getSlug, validateNewDiceSet } from "$lib/utils"
 import { getDiceCollection, getDiceSet } from "../../testUtils"
 
 let diceSetCollection: DiceSet[]
@@ -62,5 +62,29 @@ describe("getNewSet", () => {
   it("returns an object with an ID", () => {
     const newSet = getNewSet()
     expect(newSet.id).toBeTruthy()
+  })
+})
+
+describe("getRandomNumber", () => {
+  it("returns a number between 1 and 6", () => {
+    const randomNumber = getRandomNumber(6)
+    expect(randomNumber).toBeGreaterThanOrEqual(1)
+    expect(randomNumber).toBeLessThanOrEqual(6)
+  })
+
+  it("returns a number between 1 and 3", () => {
+    const randomNumber = getRandomNumber(1, 3)
+    expect(randomNumber).toBeGreaterThanOrEqual(1)
+    expect(randomNumber).toBeLessThanOrEqual(3)
+  })
+
+  it("returns 1", () => {
+    const randomNumber = getRandomNumber(1)
+    expect(randomNumber).toBe(1)
+  })
+
+  it("returns same value if min and max are the same", () => {
+    const randomNumber = getRandomNumber(4, 4)
+    expect(randomNumber).toBe(4)
   })
 })

@@ -38,3 +38,13 @@ export function getNewSet(): DiceSet {
   const id = crypto.randomUUID()
   return { id, name: "", dice: [{ type: { ...getDefaultDie() }, count: 1 }] }
 }
+
+export function getRandomNumber(max: number): number
+export function getRandomNumber(min: number, max: number): number
+export function getRandomNumber(min: number, max?: number): number {
+  if (max === undefined) {
+    max = min
+    min = 1
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
