@@ -21,6 +21,8 @@
 <h2>Roll results:</h2>
 
 {#each allRolls as roll}
+  <hr />
+  Roll #{allRolls.indexOf(roll) + 1}
   {#each roll as dieResult}
     <p>Die: {dieResult.dieType.name ?? dieResult.dieType.faces + " faces"}</p>
     {#each dieResult.results as die}
