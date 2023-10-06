@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { onMount } from "svelte"
-  import { getEmptyTimba, getAllTimba } from "$lib/storage"
+  import type { DiceSet } from "$lib/types"
   import { getSlug } from "$lib/utils"
 
-  let data = getEmptyTimba()
-  onMount(async () => {
-    data = getAllTimba()
-  })
+  export let data: { diceSets: DiceSet[] }
+  $: {
+    console.log("data", data)
+  }
 </script>
 
 <div class="button-container">
