@@ -1,7 +1,7 @@
 import type { DiceSet, DieType } from "$lib/types"
 
 export function getDefaultDie(): DieType {
-  return { faces: 6, count: 1, id: crypto.randomUUID() }
+  return { faces: 6, count: 1 }
 }
 
 export function addDieType(set: DiceSet): DiceSet {

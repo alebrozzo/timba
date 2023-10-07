@@ -1,6 +1,14 @@
 import slugify from "slugify"
 import { getDefaultDie } from "./diceUtils"
-import { ErrorCode, type DiceSet } from "./types"
+import { ErrorCode, type DiceSet, type Timba } from "./types"
+
+export function getEmptyTimba(): Timba {
+  return {
+    diceSets: [],
+    cardSet: [],
+    numberSet: [],
+  }
+}
 
 //TODO: remove "sets" as input parameter and use get endpoint
 export function validateNewDiceSet(set: DiceSet, sets: DiceSet[]): ErrorCode[] {
@@ -35,8 +43,7 @@ export function getSlug(value: string) {
 }
 
 export function getNewSet(): DiceSet {
-  const id = crypto.randomUUID()
-  return { id, name: "", slug: "", dice: [getDefaultDie()] }
+  return { name: "", slug: "", dice: [getDefaultDie()] }
 }
 
 export function getRandomNumber(max: number): number

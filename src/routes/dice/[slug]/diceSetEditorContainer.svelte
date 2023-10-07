@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
-  import { saveDiceSet } from "$lib/storage"
+  import { saveDiceSet } from "$lib/stores/diceStore"
   import type { DiceSet } from "$lib/types"
   import { DICE_EDIT_MODE_CHANGE_EVENT } from "../../../lib/diceUtils"
   import DiceSetEditor from "../diceSetEditor.svelte"
@@ -27,17 +27,12 @@
 <div>
   <button
     type="button"
-    on:click={() => {
-      const errors = saveDiceSet(editingSet)
-
-      if (errors.length > 0) {
-        console.log(errors)
-        // TODO: toast errors
-        return
+    on:click={async () => {
+      const saveResult = await saveDiceSet(editingSet)
+      if (saveResult) {
+        set = editingSet
+        closeEditor()
       }
-
-      set = editingSet
-      closeEditor()
     }}>Save</button
   >
 </div>

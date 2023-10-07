@@ -1,11 +1,21 @@
 import { describe, it, expect, beforeEach } from "vitest"
 import { ErrorCode, type DiceSet } from "$lib/types"
-import { getNewSet, getRandomNumber, getSlug, validateNewDiceSet } from "$lib/utils"
+import { getEmptyTimba, getNewSet, getRandomNumber, getSlug, validateNewDiceSet } from "$lib/utils"
 import { getDiceCollection, getDiceSet } from "../../testUtils"
 
 let diceSetCollection: DiceSet[]
 beforeEach(() => {
   diceSetCollection = getDiceCollection()
+})
+
+describe("getEmptyTimba", () => {
+  it("returns an object", () => {
+    const allTimba = getEmptyTimba()
+    expect(allTimba).toBeTruthy()
+    expect(allTimba.diceSets).toBeTruthy()
+    expect(allTimba.cardSet).toBeTruthy()
+    expect(allTimba.numberSet).toBeTruthy()
+  })
 })
 
 describe("validateNewDiceSet", () => {

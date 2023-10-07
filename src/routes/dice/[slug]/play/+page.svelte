@@ -2,11 +2,12 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { rollDice } from "$lib/diceLogic"
-  import { getDiceSetBySlug } from "$lib/storage"
+  import { getDiceSetBySlug } from "$lib/stores/diceStore"
 
   const { slug } = $page.params
   const set = getDiceSetBySlug(slug)!
   if (!set) {
+    console.log("PLAY set not found")
     goto("/oops")
   }
 

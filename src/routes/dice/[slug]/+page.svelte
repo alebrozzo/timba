@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
-  import { deleteDiceSet, getDiceSetBySlug } from "$lib/storage"
+  import { deleteDiceSet, getDiceSetBySlug } from "$lib/stores/diceStore"
   import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
   import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
 
@@ -9,18 +9,24 @@
 
   let set = getDiceSetBySlug(slug)!
   if (!set) {
-    goto("/oops")
+    console.log("#############set not found")
+
+    //goto("/oops")
   }
 
   let isEditMode = false
 
   function handleDeleteSet() {
-    deleteDiceSet(set.id)
+    deleteDiceSet(set.id!)
     goto("/dice")
   }
 
   function handleEditingStatusChange(e: CustomEvent<{ isEditing: boolean }>) {
     isEditMode = e.detail.isEditing
+  }
+
+  $: {
+    console.log("setttt", set)
   }
 </script>
 

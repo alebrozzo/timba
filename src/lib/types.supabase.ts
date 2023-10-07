@@ -43,7 +43,7 @@ export interface Database {
         Row: {
           count: number
           createdAt: string
-          dieSetId: string
+          diceSetId: string
           faces: number
           id: string
           name: string | null
@@ -53,7 +53,7 @@ export interface Database {
         Insert: {
           count?: number
           createdAt?: string
-          dieSetId: string
+          diceSetId: string
           faces?: number
           id?: string
           name?: string | null
@@ -63,7 +63,7 @@ export interface Database {
         Update: {
           count?: number
           createdAt?: string
-          dieSetId?: string
+          diceSetId?: string
           faces?: number
           id?: string
           name?: string | null
@@ -72,8 +72,8 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "DieType_dieSetId_fkey"
-            columns: ["dieSetId"]
+            foreignKeyName: "DieType_diceSetId_fkey"
+            columns: ["diceSetId"]
             referencedRelation: "DiceSet"
             referencedColumns: ["id"]
           }
@@ -142,7 +142,24 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      slugify: {
+        Args: {
+          value: string
+        }
+        Returns: string
+      }
+      unaccent: {
+        Args: {
+          "": string
+        }
+        Returns: string
+      }
+      unaccent_init: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
     }
     Enums: {
       [_ in never]: never

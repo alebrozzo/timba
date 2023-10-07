@@ -5,14 +5,14 @@ export type Timba = {
 }
 
 export type DieType = {
-  id: string
+  id?: string
   count: number
   faces: number
   name?: string
 }
 
 export type TimbaSet = {
-  id: string
+  id?: string
   name: string
   slug: string
 }
