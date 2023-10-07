@@ -1,8 +1,8 @@
-import type { DiceSet, Die } from "./types"
+import type { DiceSet, DieType } from "./types"
 import { getRandomNumber } from "./utils"
 
 export type RollResult = {
-  dieType: Die
+  dieType: DieType
   results: DieResult[]
 }
 
@@ -16,14 +16,14 @@ export function rollDice(set: DiceSet): RollResult[] {
   for (const dieType of set.dice) {
     const dieTypeResults: DieResult[] = []
     for (let i = 0; i < dieType.count; i++) {
-      const rolledValue = getRandomNumber(dieType.type.faces)
+      const rolledValue = getRandomNumber(dieType.faces)
       dieTypeResults.push({
         dieIndex: i + 1,
         rolledValue,
       })
     }
     rollResults.push({
-      dieType: dieType.type,
+      dieType: dieType,
       results: dieTypeResults,
     })
   }

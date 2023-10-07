@@ -36,7 +36,7 @@ export function getSlug(value: string) {
 
 export function getNewSet(): DiceSet {
   const id = crypto.randomUUID()
-  return { id, name: "", dice: [{ type: { ...getDefaultDie() }, count: 1 }] }
+  return { id, name: "", slug: "", dice: [getDefaultDie()] }
 }
 
 export function getRandomNumber(max: number): number

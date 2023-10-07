@@ -31,11 +31,11 @@ describe("deleteDieType", () => {
     const die = getDefaultDie()
     die.name = dieTypeName
     const set = diceSetCollection[0]
-    set.dice.push({ type: die, count: 3 })
+    set.dice.push({ ...die, count: 3 })
 
     const newSet = deleteDieType(set, die)
     expect(newSet).not.toBe(set)
     expect(newSet.dice.length).toBe(set.dice.length - 1)
-    expect(newSet.dice.find((x) => x.type.name === dieTypeName)).toBeUndefined()
+    expect(newSet.dice.find((x) => x.name === dieTypeName)).toBeUndefined()
   })
 })

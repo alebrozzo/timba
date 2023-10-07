@@ -4,7 +4,9 @@ export type Timba = {
   numberSet: TimbaSet[]
 }
 
-export type Die = {
+export type DieType = {
+  id: string
+  count: number
   faces: number
   name?: string
 }
@@ -12,13 +14,11 @@ export type Die = {
 export type TimbaSet = {
   id: string
   name: string
+  slug: string
 }
 
 export type DiceSet = TimbaSet & {
-  dice: {
-    type: Die
-    count: number
-  }[]
+  dice: DieType[]
 }
 
 export enum ErrorCode {

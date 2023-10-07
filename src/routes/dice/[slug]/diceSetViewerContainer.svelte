@@ -19,8 +19,8 @@
 
 <div><a class="button" href="{getSlug(set.name)}/play">Roll!</a></div>
 
-{#each set.dice as dice}
-  <DieTypeViewer {dice} />
+{#each set.dice as dieType}
+  <DieTypeViewer {dieType} />
 {/each}
 
 <div><button type="button" on:click={handleEditSet}>Edit</button></div>

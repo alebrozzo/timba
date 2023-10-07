@@ -39,73 +39,101 @@ export interface Database {
         }
         Relationships: []
       }
-      DiceSet_Die: {
+      DieType: {
         Row: {
           count: number
           createdAt: string
-          diceSetId: string
-          dieId: number
-          id: number
-          isActive: boolean
+          dieSetId: string
+          faces: number
+          id: string
+          name: string | null
           updatedAt: string
+          userId: string | null
         }
         Insert: {
           count?: number
           createdAt?: string
-          diceSetId: string
-          dieId: number
-          id?: number
-          isActive?: boolean
+          dieSetId: string
+          faces?: number
+          id?: string
+          name?: string | null
           updatedAt?: string
+          userId?: string | null
         }
         Update: {
           count?: number
           createdAt?: string
-          diceSetId?: string
-          dieId?: number
-          id?: number
-          isActive?: boolean
+          dieSetId?: string
+          faces?: number
+          id?: string
+          name?: string | null
           updatedAt?: string
+          userId?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "DiceSet_Die_diceSetId_fkey"
-            columns: ["diceSetId"]
+            foreignKeyName: "DieType_dieSetId_fkey"
+            columns: ["dieSetId"]
             referencedRelation: "DiceSet"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "DiceSet_Die_dieId_fkey"
-            columns: ["dieId"]
-            referencedRelation: "Die"
             referencedColumns: ["id"]
           }
         ]
       }
-      Die: {
+      members: {
         Row: {
-          createdAt: string
-          faces: number
-          id: number
-          isActive: boolean
-          name: string | null
-          updatedAt: string
+          team_id: number
+          user_id: number
         }
         Insert: {
-          createdAt?: string
-          faces: number
-          id?: number
-          isActive?: boolean
-          name?: string | null
-          updatedAt?: string
+          team_id: number
+          user_id: number
         }
         Update: {
-          createdAt?: string
-          faces?: number
+          team_id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "members_team_id_fkey"
+            columns: ["team_id"]
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "members_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      teams: {
+        Row: {
+          id: number
+          team_name: string | null
+        }
+        Insert: {
           id?: number
-          isActive?: boolean
+          team_name?: string | null
+        }
+        Update: {
+          id?: number
+          team_name?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          id: number
+          name: string | null
+        }
+        Insert: {
+          id?: number
           name?: string | null
-          updatedAt?: string
+        }
+        Update: {
+          id?: number
+          name?: string | null
         }
         Relationships: []
       }

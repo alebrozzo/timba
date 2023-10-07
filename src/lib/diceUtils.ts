@@ -1,15 +1,15 @@
-import type { DiceSet, Die } from "$lib/types"
+import type { DiceSet, DieType } from "$lib/types"
 
-export function getDefaultDie(): Die {
-  return { faces: 6 }
+export function getDefaultDie(): DieType {
+  return { faces: 6, count: 1, id: crypto.randomUUID() }
 }
 
 export function addDieType(set: DiceSet): DiceSet {
-  return { ...set, dice: [...set.dice, { count: 1, type: { ...getDefaultDie() } }] }
+  return { ...set, dice: [...set.dice, getDefaultDie()] }
 }
 
-export function deleteDieType(set: DiceSet, die: Die): DiceSet {
-  return { ...set, dice: set.dice.filter((x) => x.type !== die) }
+export function deleteDieType(set: DiceSet, die: DieType): DiceSet {
+  return { ...set, dice: set.dice.filter((x) => x.id !== die.id) }
 }
 
 export const DICE_EDIT_MODE_CHANGE_EVENT = "DiceEditModeChanged"

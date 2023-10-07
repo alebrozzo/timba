@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest"
+import { describe, expect, it } from "vitest"
 import { rollDice } from "$lib/diceLogic"
 import type { DiceSet } from "$lib/types"
 
@@ -6,11 +6,12 @@ function getTestDiceSet(): DiceSet {
   return {
     id: "123",
     name: "Test Set",
+    slug: "test-set",
     dice: [
-      { type: { faces: 20, name: "D20" }, count: 1 },
-      { type: { faces: 12, name: "D12" }, count: 5 },
-      { type: { faces: 4, name: "D4" }, count: 4 },
-      { type: { faces: 1, name: "D1" }, count: 1 },
+      { faces: 20, name: "D20", count: 1, id: "1" },
+      { faces: 12, name: "D12", count: 5, id: "2" },
+      { faces: 4, name: "D4", count: 4, id: "3" },
+      { faces: 1, name: "D1", count: 1, id: "4" },
     ],
   }
 }
@@ -25,14 +26,14 @@ describe("rollDice", () => {
       const diceOfType = diceSet.dice[dieTypeIndex]
 
       // verify that we got the correct number of results for this die type
-      expect(roll[dieTypeIndex].dieType).toBe(diceOfType.type)
+      expect(roll[dieTypeIndex].dieType.id).toBe(diceOfType.id)
       expect(roll[dieTypeIndex].results.length).toBe(diceOfType.count)
 
       // verify that each result is within the expected range (faces)
       for (let dieIndex = 0; dieIndex < diceOfType.count; dieIndex++) {
         const dieResult = roll[dieTypeIndex].results[dieIndex]
         expect(dieResult.rolledValue).toBeGreaterThanOrEqual(1)
-        expect(dieResult.rolledValue).toBeLessThanOrEqual(diceOfType.type.faces)
+        expect(dieResult.rolledValue).toBeLessThanOrEqual(diceOfType.faces)
       }
     }
   })

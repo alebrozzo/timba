@@ -31,8 +31,8 @@ describe("saveAllTimba", () => {
     const allTimba = getAllTimba()
     allTimba.diceSets = diceSetCollection
     allTimba.diceSets[0].name = diceSetName
-    allTimba.cardSet.push({ name: cardSetName, id: "card1" })
-    allTimba.numberSet.push({ name: numbersSetName, id: "number1" })
+    allTimba.cardSet.push({ name: cardSetName, id: "card1", slug: "card1" })
+    allTimba.numberSet.push({ name: numbersSetName, id: "number1", slug: "number1" })
 
     saveAllTimba(allTimba)
 

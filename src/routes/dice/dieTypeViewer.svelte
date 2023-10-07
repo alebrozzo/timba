@@ -1,14 +1,11 @@
 <script lang="ts">
-  import type { Die } from "$lib/types"
+  import type { DieType } from "$lib/types"
 
-  export let dice: {
-    type: Die
-    count: number
-  }
+  export let dieType: DieType
 </script>
 
 <div class="display-vertical editor-container">
-  <p>Cantidad:{dice.count}</p>
-  <p>Caras:{dice.type.faces}</p>
-  <p>Nombre:{dice.type.name ?? ""}</p>
+  <p>Cantidad:{dieType.count}</p>
+  <p>Caras:{dieType.faces}</p>
+  <p>Nombre:{dieType.name ?? ""}</p>
 </div>
