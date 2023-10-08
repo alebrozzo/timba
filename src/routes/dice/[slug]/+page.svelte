@@ -1,16 +1,18 @@
 <script lang="ts">
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
-  import { deleteDiceSet, getDiceSetBySlug } from "$lib/stores/diceStore"
+  import { getDiceSetBySlug } from "$lib/diceUtils"
+  import { diceSetStore } from "$lib/stores/diceStore"
+  import { deleteDiceSet } from "$lib/stores/supabase"
   import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
   import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
 
   const { slug } = $page.params
 
-  let set = getDiceSetBySlug(slug)!
+  let set = getDiceSetBySlug($diceSetStore, slug)!
   if (!set) {
     console.log("#############set not found")
-
+    // TODO: refresh does not work
     //goto("/oops")
   }
 
@@ -26,7 +28,7 @@
   }
 
   $: {
-    console.log("setttt", set)
+    console.log("updated set!", set)
   }
 </script>
 

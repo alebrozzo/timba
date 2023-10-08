@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation"
-  import { saveDiceSet } from "$lib/stores/diceStore"
+  import { saveDiceSet } from "$lib/stores/supabase"
   import type { DiceSet } from "$lib/types"
   import { getNewSet } from "$lib/utils"
   import DiceSetEditor from "../diceSetEditor.svelte"

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
-  import { saveDiceSet } from "$lib/stores/diceStore"
+  import { diceSetStore } from "$lib/stores/diceStore"
+  import { saveDiceSet } from "$lib/stores/supabase"
   import type { DiceSet } from "$lib/types"
   import { DICE_EDIT_MODE_CHANGE_EVENT } from "../../../lib/diceUtils"
   import DiceSetEditor from "../diceSetEditor.svelte"
@@ -29,8 +30,15 @@
     type="button"
     on:click={async () => {
       const saveResult = await saveDiceSet(editingSet)
+      console.log("saveResult", saveResult)
+
       if (saveResult) {
         set = editingSet
+        diceSetStore.update((diceSets) => {
+          const index = diceSets.findIndex((set) => set.id === editingSet.id)
+          diceSets[index] = editingSet
+          return diceSets
+        })
         closeEditor()
       }
     }}>Save</button

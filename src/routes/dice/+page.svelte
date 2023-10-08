@@ -1,7 +1,12 @@
 <script lang="ts">
-  import type { DiceSet } from "$lib/types"
+  import { onMount } from "svelte"
+  import { diceSetStore } from "$lib/stores/diceStore"
+  import type { PageData } from "./$types"
 
-  export let data: { diceSets: DiceSet[] }
+  export let data: PageData
+  onMount(() => {
+    diceSetStore.set(data.diceSets)
+  })
 </script>
 
 <div class="button-container">
