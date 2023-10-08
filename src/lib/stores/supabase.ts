@@ -99,7 +99,7 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
   return await getDiceSets()
 }
 
-export async function deleteDiceSet(setId: /*DiceSet["id"]*/ string): Promise<DiceSet[]> {
+export async function deleteDiceSet(setId: NonNullable<DiceSet["id"]>): Promise<DiceSet[]> {
   const { error } = await supabase.from("DiceSet").delete().eq("id", setId)
   if (error) {
     console.error(error)
