@@ -28,11 +28,28 @@ export async function getDiceSets(): Promise<DiceSet[]> {
   return diceSets
 }
 
+export async function getDiceSet(setId: NonNullable<DiceSet["id"]>): Promise<DiceSet | null> {
+  const { data, error } = await supabase
+    .from("DiceSet")
+    .select("id, name, slug, DieType (id, faces, name, count)")
+    .eq("id", setId)
+    .single()
+
+  if (!data) {
+    return null
+  }
+
+  const diceSets = toDiceSet(data)
+  console.log("getDiceSet loaded correctly", diceSets)
+  return diceSets
+}
+
 export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
   // transactions are not supported by supabase yet and rpc does not accept multi params
-
   const diceSetValues = { name: set.name, slug: set.slug }
-  if (!set.id) {
+  const dbValues = !set.id ? null : await getDiceSet(set.id)
+  if (!dbValues) {
+    // insert
     const { data, error } = await supabase.from("DiceSet").insert(diceSetValues).select().single()
     if (error) {
       console.error(error)
@@ -40,9 +57,11 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
       return null
     }
 
+    // indicate the new Id for child records
     set.id = data.id
   } else {
-    const { error } = await supabase.from("DiceSet").update(diceSetValues).eq("id", set.id)
+    // update
+    const { error } = await supabase.from("DiceSet").update(diceSetValues).eq("id", set.id!)
     if (error) {
       console.error(error)
       // TODO: show toast
@@ -50,18 +69,34 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
     }
   }
 
-  const dieTypeValues = set.dice.map((x) => ({
-    diceSetId: set.id!,
-    faces: x.faces,
-    count: x.count,
-    name: x.name,
-  }))
-  //const dieTypeValues = set.dice.map((x) => ({ ...x, diceSetId: set.id! }))
-  const { error } = await supabase.from("DieType").upsert(dieTypeValues)
-  if (error) {
-    console.error(error)
-    // TODO: show toast
-    return null
+  // TODO: move to GroupBy when browser support
+  const dieTypeInserts = set.dice.filter((x) => !x.id).map((x) => ({ ...x, diceSetId: set.id! }))
+  const dieTypeUpdates = set.dice.filter((x) => x.id).map((x) => ({ ...x, diceSetId: set.id! }))
+  const dieTypeDeletes = dbValues?.dice.filter((x) => !set.dice.find((d) => d.id === x.id)).map((x) => x.id!) ?? []
+
+  if (dieTypeInserts.length > 0) {
+    const { error } = await supabase.from("DieType").insert(dieTypeInserts)
+    if (error) {
+      console.error(error)
+      // TODO: show toast
+      return null
+    }
+  }
+
+  if (dieTypeUpdates.length > 0) {
+    const { error } = await supabase.from("DieType").upsert(dieTypeUpdates)
+    if (error) {
+      console.error(error)
+      // TODO: show toast
+      return null
+    }
+  }
+
+  if (dieTypeDeletes.length > 0) {
+    const { error } = await supabase.from("DieType").delete().in("id", dieTypeDeletes)
+    if (error) {
+      console.error(error)
+    }
   }
 
   return await getDiceSets()
