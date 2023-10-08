@@ -9,7 +9,8 @@ export function addDieType(set: DiceSet): DiceSet {
 }
 
 export function deleteDieType(set: DiceSet, die: DieType): DiceSet {
-  return { ...set, dice: set.dice.filter((x) => x.id !== die.id) }
+  //return { ...set, dice: set.dice.filter((x) => x.id !== die.id) }
+  return { ...set, dice: set.dice.filter((x) => x !== die) }
 }
 
 export function getDiceSetBySlug(sets: DiceSet[], slug: DiceSet["slug"]): DiceSet | null {
