@@ -79,64 +79,6 @@ export interface Database {
           }
         ]
       }
-      members: {
-        Row: {
-          team_id: number
-          user_id: number
-        }
-        Insert: {
-          team_id: number
-          user_id: number
-        }
-        Update: {
-          team_id?: number
-          user_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "members_team_id_fkey"
-            columns: ["team_id"]
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "members_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      teams: {
-        Row: {
-          id: number
-          team_name: string | null
-        }
-        Insert: {
-          id?: number
-          team_name?: string | null
-        }
-        Update: {
-          id?: number
-          team_name?: string | null
-        }
-        Relationships: []
-      }
-      users: {
-        Row: {
-          id: number
-          name: string | null
-        }
-        Insert: {
-          id?: number
-          name?: string | null
-        }
-        Update: {
-          id?: number
-          name?: string | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
