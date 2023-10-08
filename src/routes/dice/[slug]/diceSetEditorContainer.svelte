@@ -31,16 +31,18 @@
     on:click={async () => {
       const saveResult = await saveDiceSet(editingSet)
       console.log("saveResult", saveResult)
-
-      if (saveResult) {
-        set = editingSet
-        diceSetStore.update((diceSets) => {
-          const index = diceSets.findIndex((set) => set.id === editingSet.id)
-          diceSets[index] = editingSet
-          return diceSets
-        })
-        closeEditor()
+      if (!saveResult) {
+        // TODO: show toast
+        return
       }
+
+      set = editingSet
+      diceSetStore.update((diceSets) => {
+        const index = diceSets.findIndex((set) => set.id === editingSet.id)
+        diceSets[index] = editingSet
+        return diceSets
+      })
+      closeEditor()
     }}>Save</button
   >
 </div>

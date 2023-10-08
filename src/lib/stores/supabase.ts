@@ -53,7 +53,6 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
     const { data, error } = await supabase.from("DiceSet").insert(diceSetValues).select().single()
     if (error) {
       console.error(error)
-      // TODO: show toast. Raise event?
       return null
     }
 
@@ -64,7 +63,6 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
     const { error } = await supabase.from("DiceSet").update(diceSetValues).eq("id", set.id!)
     if (error) {
       console.error(error)
-      // TODO: show toast
       return null
     }
   }
@@ -78,7 +76,6 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
     const { error } = await supabase.from("DieType").insert(dieTypeInserts)
     if (error) {
       console.error(error)
-      // TODO: show toast
       return null
     }
   }
@@ -87,7 +84,6 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
     const { error } = await supabase.from("DieType").upsert(dieTypeUpdates)
     if (error) {
       console.error(error)
-      // TODO: show toast
       return null
     }
   }
@@ -96,6 +92,7 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
     const { error } = await supabase.from("DieType").delete().in("id", dieTypeDeletes)
     if (error) {
       console.error(error)
+      return null
     }
   }
 
