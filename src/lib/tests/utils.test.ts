@@ -69,9 +69,10 @@ describe("getSlug", () => {
 })
 
 describe("getNewSet", () => {
-  it("returns an object with an ID", () => {
+  it("returns an object with no ID", () => {
     const newSet = getNewSet()
-    expect(newSet.id).toBeTruthy()
+    expect(newSet).toBeTruthy()
+    expect(newSet.id).toBeFalsy()
   })
 })
 

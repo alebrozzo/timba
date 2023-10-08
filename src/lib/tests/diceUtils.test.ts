@@ -31,7 +31,7 @@ describe("deleteDieType", () => {
     const die = getDefaultDie()
     die.name = dieTypeName
     const set = diceSetCollection[0]
-    set.dice.push({ ...die, count: 3 })
+    set.dice.push(die)
 
     const newSet = deleteDieType(set, die)
     expect(newSet).not.toBe(set)
