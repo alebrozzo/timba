@@ -17,7 +17,10 @@ type ApiResponseDiceSetRow = {
 }
 
 export async function getDiceSets(): Promise<DiceSet[]> {
-  const { data, error } = await supabase.from("DiceSet").select("id, name, slug, DieType (id, faces, name, count)")
+  const { data, error } = await supabase
+    .from("DiceSet")
+    .select("id, name, slug, DieType (id, faces, name, count)")
+    .eq("isActive", true)
   if (error) {
     console.error(error)
     // TODO: handle error, return 404?
@@ -32,7 +35,7 @@ export async function getDiceSet(setId: NonNullable<DiceSet["id"]>): Promise<Dic
   const { data, error } = await supabase
     .from("DiceSet")
     .select("id, name, slug, DieType (id, faces, name, count)")
-    .eq("id", setId)
+    .match({ id: setId, isActive: true })
     .single()
 
   if (!data) {
@@ -68,6 +71,7 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
   }
 
   // TODO: move to GroupBy when browser support
+  // also, cannot use upsert for inserts unless I set the id in the front end
   const dieTypeInserts = set.dice.filter((x) => !x.id).map((x) => ({ ...x, diceSetId: set.id! }))
   const dieTypeUpdates = set.dice.filter((x) => x.id).map((x) => ({ ...x, diceSetId: set.id! }))
   const dieTypeDeletes = dbValues?.dice.filter((x) => !set.dice.find((d) => d.id === x.id)).map((x) => x.id!) ?? []
@@ -100,7 +104,7 @@ export async function saveDiceSet(set: DiceSet): Promise<DiceSet[] | null> {
 }
 
 export async function deleteDiceSet(setId: NonNullable<DiceSet["id"]>): Promise<DiceSet[]> {
-  const { error } = await supabase.from("DiceSet").delete().eq("id", setId)
+  const { error } = await supabase.from("DiceSet").update({ isActive: false }).eq("id", setId)
   if (error) {
     console.error(error)
   }
