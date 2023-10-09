@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
   import { diceSetStore } from "$lib/stores/diceStore"
-  import { saveDiceSet } from "$lib/stores/supabase"
+  import { saveDiceSet } from "$lib/stores/firestore"
   import type { DiceSet } from "$lib/types"
   import { DICE_EDIT_MODE_CHANGE_EVENT } from "../../../lib/diceUtils"
   import DiceSetEditor from "../diceSetEditor.svelte"

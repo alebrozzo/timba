@@ -1,4 +1,4 @@
-import { getDiceSets } from "$lib/stores/supabase"
+import { getDiceSets } from "$lib/stores/firestore"
 import type { DiceSet } from "$lib/types"
 
 type PageData = {

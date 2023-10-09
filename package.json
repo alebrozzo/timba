@@ -39,6 +39,7 @@
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.38.0",
+    "firebase": "^10.4.0",
     "slugify": "^1.6.6"
   }
 }
