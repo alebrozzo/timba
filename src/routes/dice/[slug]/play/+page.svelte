@@ -35,6 +35,7 @@
 
 <button
   type="button"
+  class="button"
   on:click={() => {
     allRolls = [...allRolls, rollDice(set)]
   }}>Roll again!</button

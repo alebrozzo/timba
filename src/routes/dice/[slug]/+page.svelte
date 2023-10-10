@@ -50,3 +50,5 @@
 
 <div><button type="button" on:click={async () => handleSaveSet(set)}>Save</button></div>
 <div><button type="button" on:click={async () => handleDeleteSet(set.id ?? "")}>Delete</button></div>
+
+<div><a class="button" href="{set.slug || set.id}/play">Roll!</a></div>
