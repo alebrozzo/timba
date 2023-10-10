@@ -4,15 +4,6 @@ export function getDefaultDie(): DieType {
   return { faces: 6, count: 1 }
 }
 
-export function addDieType(set: DiceSet): DiceSet {
-  return { ...set, dice: [...set.dice, getDefaultDie()] }
-}
-
-export function deleteDieType(set: DiceSet, die: DieType): DiceSet {
-  //return { ...set, dice: set.dice.filter((x) => x.id !== die.id) }
-  return { ...set, dice: set.dice.filter((x) => x !== die) }
-}
-
 export function getDiceSetBySlug(sets: DiceSet[], slug: DiceSet["slug"] | DiceSet["id"]): DiceSet | null {
   const set = sets.filter((x) => x.slug === slug)
   if (set.length === 0) {
@@ -32,4 +23,8 @@ export function getDiceSetBySlug(sets: DiceSet[], slug: DiceSet["slug"] | DiceSe
 }
 
 export const DICE_EDIT_MODE_CHANGE_EVENT = "DiceEditModeChanged"
+export const DICE_SET_DIE_TYPE_ADD_EVENT = "DiceSetDieTypeAdd"
+export const DICE_SET_DIE_TYPE_EDIT_EVENT = "DiceSetDieTypeEdit"
+export const DICE_SET_DIE_TYPE_SAVE_EVENT = "DiceSetDieTypeSave"
+export const DICE_SET_DIE_TYPE_DELETE_EVENT = "DiceSetDieTypeDelete"
 export const DICE_SET_DELETE_EVENT = "DiceSetDeleted"

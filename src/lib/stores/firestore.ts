@@ -48,14 +48,14 @@ const dieTypeConverter = {
   toFirestore(dieType: DieType): DocumentData {
     return { ...dieType, name: dieType.name ?? "" }
   },
-  fromFirestore(data: DocumentData): DieType {
-    return { faces: data.faces, count: data.count, name: data.name ?? "" }
+  fromFirestore(data: DocumentData, id: string): DieType {
+    return { faces: data.faces, count: data.count, name: data.name ?? "", id: id.toString() }
   },
 }
 
 const diceSetConverter = {
   toFirestore(set: DiceSet): DocumentData {
-    return { ...set, isActive: true }
+    return { ...set, dice: set.dice.map(dieTypeConverter.toFirestore), isActive: true }
   },
   fromFirestore(snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>): DiceSet {
     const data = snapshot.data()
@@ -63,7 +63,7 @@ const diceSetConverter = {
       id: snapshot.id,
       name: data.name,
       slug: data.slug,
-      dice: data.dice.map(dieTypeConverter.fromFirestore),
+      dice: data.dice.map((x: DieType, ix: number) => dieTypeConverter.fromFirestore(x, ix)),
     }
   },
 }
