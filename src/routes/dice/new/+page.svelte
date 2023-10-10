@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation"
+  import { diceSetStore } from "$lib/stores/diceStore"
   import { saveDiceSet } from "$lib/stores/firestore"
   import type { DiceSet } from "$lib/types"
   import { getNewSet } from "$lib/utils"
@@ -10,6 +11,7 @@
   async function handleSaveSet(set: DiceSet) {
     const saveResult = await saveDiceSet(set)
     if (saveResult) {
+      diceSetStore.set(saveResult)
       goto("/dice")
     }
   }
