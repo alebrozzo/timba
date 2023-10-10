@@ -14,6 +14,6 @@
   <a class="button" href="dice/new">New</a>
 
   {#each data.diceSets as set}
-    <a class="button" href="dice/{set.slug}">{set.name}</a>
+    <a class="button" href="dice/{set.slug || set.id}">{set.name}</a>
   {/each}
 </div>

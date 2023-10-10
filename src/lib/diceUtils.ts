@@ -13,9 +13,13 @@ export function deleteDieType(set: DiceSet, die: DieType): DiceSet {
   return { ...set, dice: set.dice.filter((x) => x !== die) }
 }
 
-export function getDiceSetBySlug(sets: DiceSet[], slug: DiceSet["slug"]): DiceSet | null {
+export function getDiceSetBySlug(sets: DiceSet[], slug: DiceSet["slug"] | DiceSet["id"]): DiceSet | null {
   const set = sets.filter((x) => x.slug === slug)
   if (set.length === 0) {
+    const setById = sets.filter((x) => x.id === slug)
+    if (setById.length > 0) {
+      return setById[0]
+    }
     console.warn(slug + " did not exist in the database")
     return null
   }

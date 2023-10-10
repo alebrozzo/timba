@@ -2,7 +2,6 @@
   import { createEventDispatcher } from "svelte"
   import { DICE_EDIT_MODE_CHANGE_EVENT, DICE_SET_DELETE_EVENT } from "$lib/diceUtils"
   import type { DiceSet } from "$lib/types"
-  import { getSlug } from "$lib/utils"
   import DieTypeViewer from "../dieTypeViewer.svelte"
 
   const dispatch = createEventDispatcher()
@@ -17,7 +16,7 @@
   }
 </script>
 
-<div><a class="button" href="{getSlug(set.name)}/play">Roll!</a></div>
+<div><a class="button" href="{set.slug || set.id}/play">Roll!</a></div>
 
 {#each set.dice as dieType}
   <DieTypeViewer {dieType} />
