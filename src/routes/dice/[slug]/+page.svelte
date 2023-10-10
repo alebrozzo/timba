@@ -3,7 +3,8 @@
   import { page } from "$app/stores"
   import { getDiceSetBySlug } from "$lib/diceUtils"
   import { diceSetStore } from "$lib/stores/diceStore"
-  import { deleteDiceSet } from "$lib/stores/supabase"
+  import { deleteDiceSet } from "$lib/stores/firestore"
+  import type { DiceSet } from "$lib/types"
   import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
   import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
 
@@ -18,9 +19,13 @@
 
   let isEditMode = false
 
-  function handleDeleteSet() {
-    deleteDiceSet(set.id!)
-    goto("/dice")
+  async function handleDeleteSet(setId: NonNullable<DiceSet["id"]>) {
+    const deleteResult = await deleteDiceSet(setId)
+    if (deleteResult) {
+      diceSetStore.set(deleteResult)
+      goto("/dice")
+    }
+    // TODO: error toast
   }
 
   function handleEditingStatusChange(e: CustomEvent<{ isEditing: boolean }>) {
@@ -46,7 +51,7 @@
 {:else}
   <DiceSetViewerContainer
     {set}
-    on:DiceSetDeleted={handleDeleteSet}
+    on:DiceSetDeleted={async () => handleDeleteSet(set.id ?? "")}
     on:DiceEditModeChanged={handleEditingStatusChange}
   />
 {/if}

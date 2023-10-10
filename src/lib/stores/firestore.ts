@@ -1,19 +1,23 @@
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
   setDoc,
   type DocumentData,
   QueryDocumentSnapshot,
+  updateDoc,
+  query,
+  where,
 } from "firebase/firestore"
 import { firestore } from "$lib/firestore"
 import type { DiceSet, DieType } from "$lib/types"
 
 export async function getDiceSets(): Promise<DiceSet[]> {
-  const querySnapshot = await getDocs(collection(firestore, "DiceSet").withConverter(diceSetConverter))
+  const querySnapshot = await getDocs(
+    query(collection(firestore, "DiceSet").withConverter(diceSetConverter), where("isActive", "==", true))
+  )
   return querySnapshot.docs.map((x) => x.data())
 }
 
@@ -23,22 +27,20 @@ export async function getDiceSet(setId: NonNullable<DiceSet["id"]>): Promise<Dic
 }
 
 export async function saveDiceSet(set: DiceSet): Promise<DiceSet[]> {
-  console.log("##!## saveDiceSet", set)
-
   if (!set.id) {
     const diceSetCollection = collection(firestore, "DiceSet").withConverter(diceSetConverter)
     const result = await addDoc(diceSetCollection, set)
-    console.log("#### Add result", result)
+    //TODO: how to know if no insert?
   } else {
     const result = await setDoc(doc(firestore, "DiceSet", set.id).withConverter(diceSetConverter), set)
-    console.log("#### Set result", result)
+    //TODO: how to know if no update?
   }
 
   return await getDiceSets()
 }
 
 export async function deleteDiceSet(setId: NonNullable<DiceSet["id"]>): Promise<DiceSet[]> {
-  await deleteDoc(doc(firestore, "DiceSet", setId))
+  await updateDoc(doc(firestore, "DiceSet", setId), { isActive: false })
   return await getDiceSets()
 }
 
@@ -52,8 +54,8 @@ const dieTypeConverter = {
 }
 
 const diceSetConverter = {
-  toFirestore(diceSet: DiceSet): DocumentData {
-    return diceSet
+  toFirestore(set: DiceSet): DocumentData {
+    return { ...set, isActive: true }
   },
   fromFirestore(snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>): DiceSet {
     const data = snapshot.data()

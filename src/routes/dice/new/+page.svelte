@@ -14,6 +14,8 @@
       diceSetStore.set(saveResult)
       goto("/dice")
     }
+
+    // TODO: error toast
   }
 </script>
 
