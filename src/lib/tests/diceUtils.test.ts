@@ -23,6 +23,12 @@ describe("getDiceSetBySlug", () => {
     expect(newSet).toBe(set)
   })
 
+  it("returns a set when received id instead of slug", () => {
+    const set = diceSetCollection[0]
+    const newSet = getDiceSetBySlug(diceSetCollection, set.id)
+    expect(newSet).toBe(set)
+  })
+
   it("returns null when it does not exist", () => {
     const newSet = getDiceSetBySlug(diceSetCollection, "not-a-valid-slug")
     expect(newSet).toBeNull()
