@@ -3,10 +3,9 @@
   import { page } from "$app/stores"
   import { getDiceSetBySlug } from "$lib/diceUtils"
   import { diceSetStore } from "$lib/stores/diceStore"
-  import { deleteDiceSet } from "$lib/stores/firestore"
+  import { deleteDiceSet, saveDiceSet } from "$lib/stores/firestore"
   import type { DiceSet } from "$lib/types"
-  import DiceSetEditorContainer from "./diceSetEditorContainer.svelte"
-  import DiceSetViewerContainer from "./diceSetViewerContainer.svelte"
+  import DiceSetEditor from "../diceSetEditor.svelte"
 
   const { slug } = $page.params
 
@@ -17,7 +16,16 @@
     //goto("/oops")
   }
 
-  let isEditMode = false
+  async function handleSaveSet(set: DiceSet) {
+    const saveResult = await saveDiceSet(set)
+    if (saveResult) {
+      diceSetStore.set(saveResult)
+      goto("/dice")
+      // TODO: redirect to slug page
+    }
+
+    // TODO: error toast
+  }
 
   async function handleDeleteSet(setId: NonNullable<DiceSet["id"]>) {
     const deleteResult = await deleteDiceSet(setId)
@@ -26,10 +34,6 @@
       goto("/dice")
     }
     // TODO: error toast
-  }
-
-  function handleEditingStatusChange(e: CustomEvent<{ isEditing: boolean }>) {
-    isEditMode = e.detail.isEditing
   }
 
   $: {
@@ -42,16 +46,7 @@
   <a class="button" href="/dice">Back</a>
 </div>
 
-<h2>{set.name}</h2>
+<DiceSetEditor bind:set />
 
-<h3>Dice:</h3>
-
-{#if isEditMode}
-  <DiceSetEditorContainer bind:set on:DiceEditModeChanged={handleEditingStatusChange} />
-{:else}
-  <DiceSetViewerContainer
-    {set}
-    on:DiceSetDeleted={async () => handleDeleteSet(set.id ?? "")}
-    on:DiceEditModeChanged={handleEditingStatusChange}
-  />
-{/if}
+<div><button type="button" on:click={async () => handleSaveSet(set)}>Save</button></div>
+<div><button type="button" on:click={async () => handleDeleteSet(set.id ?? "")}>Delete</button></div>

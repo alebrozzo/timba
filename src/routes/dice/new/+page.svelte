@@ -13,6 +13,7 @@
     if (saveResult) {
       diceSetStore.set(saveResult)
       goto("/dice")
+      // TODO: redirect to slug page
     }
 
     // TODO: error toast
@@ -23,10 +24,6 @@
   <a class="button" href="/">Home</a>
   <a class="button" href="/dice">Back</a>
 </div>
-
-<label>Dice set name:<input type="text" maxlength="30" bind:value={set.name} /></label>
-
-<h2>Dice:</h2>
 
 <DiceSetEditor bind:set />
 

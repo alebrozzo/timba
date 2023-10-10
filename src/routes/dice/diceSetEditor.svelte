@@ -39,6 +39,10 @@
   }
 </script>
 
+<label>Dice set name:<input type="text" maxlength="30" bind:value={set.name} /></label>
+
+<h2>Dice:</h2>
+
 <DieTypeList
   {set}
   on:DiceSetDieTypeAdd={handleDiceSetDieTypeAdd}
