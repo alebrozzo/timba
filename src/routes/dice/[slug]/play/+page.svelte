@@ -17,8 +17,13 @@
 </script>
 
 <div class="display-vertical button-container gallery">
-  <Button href="../" variant="raised">
-    <Label>Back</Label>
+  <Button
+    variant="outlined"
+    on:click={() => {
+      allRolls = [rollDice(set)]
+    }}
+  >
+    <Label>Start over</Label>
   </Button>
 </div>
 <div class="display-vertical button-container gallery">
