@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Button, { Label } from "@smui/button"
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { getDiceSetBySlug } from "$lib/diceUtils"
@@ -41,14 +42,19 @@
   }
 </script>
 
-<div class="button-container">
-  <a class="button" href="/">Home</a>
-  <a class="button" href="/dice">Back</a>
+<div class="display-vertical button-container gallery">
+  <Button href="{set.slug || set.id}/play" variant="outlined">
+    <Label>Roll!</Label>
+  </Button>
 </div>
 
 <DiceSetEditor bind:set />
 
-<div><button type="button" on:click={async () => handleSaveSet(set)}>Save</button></div>
-<div><button type="button" on:click={async () => handleDeleteSet(set.id ?? "")}>Delete</button></div>
-
-<div><a class="button" href="{set.slug || set.id}/play">Roll!</a></div>
+<div class="display-vertical button-container gallery">
+  <Button variant="raised" on:click={async () => handleSaveSet(set)}>
+    <Label>Save</Label>
+  </Button>
+  <Button variant="raised" on:click={async () => handleDeleteSet(set.id ?? "")}>
+    <Label>Delete</Label>
+  </Button>
+</div>

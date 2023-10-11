@@ -10,6 +10,8 @@
 .button-container {
   justify-content: space-evenly;
   width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* css to let buttons be displayed as a gallery, with changing button count per row for different viewport width sizes */
@@ -20,6 +22,10 @@
 
   .mdc-button {
     height: 4rem;
+
+    &.mdc-button--raised {
+      color: green;
+    }
   }
 }
 

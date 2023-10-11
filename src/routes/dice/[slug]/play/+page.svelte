@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Button, { Label } from "@smui/button"
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { rollDice } from "$lib/diceLogic"
@@ -15,9 +16,20 @@
   let allRolls = [rollDice(set)]
 </script>
 
-<div class="button-container">
-  <a class="button" href="/">Home</a>
-  <a class="button" href="../">Back</a>
+<div class="display-vertical button-container gallery">
+  <Button href="../" variant="raised">
+    <Label>Back</Label>
+  </Button>
+</div>
+<div class="display-vertical button-container gallery">
+  <Button
+    variant="outlined"
+    on:click={() => {
+      allRolls = [...allRolls, rollDice(set)]
+    }}
+  >
+    <Label>Roll again</Label>
+  </Button>
 </div>
 
 <h2>Roll results:</h2>
@@ -32,11 +44,3 @@
     {/each}
   {/each}
 {/each}
-
-<button
-  type="button"
-  class="button"
-  on:click={() => {
-    allRolls = [...allRolls, rollDice(set)]
-  }}>Roll again!</button
->
