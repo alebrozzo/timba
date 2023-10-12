@@ -9,6 +9,7 @@
   import DieTypeList from "./dieTypeList.svelte"
 
   export let set: DiceSet
+  let editingSet: DiceSet = structuredClone(set)
   let editingDieType: DieType | null
 
   function handleDiceSetDieTypeSave(e: CustomEvent<{ dieType: DieType }>) {
@@ -16,67 +17,73 @@
     const errors = validateDie(receivedDieType)
     if (errors.length > 0) {
       // TODO: error toast
-      console.log(errors)
+      console.error(errors)
       return
     }
 
-    const editedDieType = set.dice.find((d) => d.id === receivedDieType.id)
+    const editedDieType = editingSet.dice.find((d) => d.id === receivedDieType.id)
     if (editedDieType) {
       editedDieType.faces = receivedDieType.faces
       editedDieType.count = receivedDieType.count
       editedDieType.name = receivedDieType.name
     } else {
-      set.dice.push(receivedDieType)
+      editingSet.dice.push(receivedDieType)
     }
-    set = structuredClone(set)
+    editingSet = structuredClone(editingSet)
     editingDieType = null
   }
 
+  function handleDiceSetDieTypeDelete(e: CustomEvent<{ dieType: DieType }>) {
+    editingSet.dice = editingSet.dice.filter((d) => d.id !== e.detail.dieType.id)
+  }
+
   function handleDiceSetDieTypeAdd() {
-    editingDieType = { ...getDefaultDie(), id: set.dice.length.toString() }
+    editingDieType = { ...getDefaultDie(), id: editingSet.dice.length.toString() }
   }
 
   function handleDiceSetDieTypeEdit(e: CustomEvent<{ dieType: DieType }>) {
     editingDieType = e.detail.dieType
   }
 
-  function handleDiceSetDieTypeDelete(e: CustomEvent<{ dieType: DieType }>) {
-    set.dice = set.dice.filter((d) => d.id !== e.detail.dieType.id)
-    set = { ...set }
-  }
-
   const dispatch = createEventDispatcher()
 
   function handleSaveClick() {
-    const errors = set.dice.flatMap(validateDie)
-    console.log("handleSaveClick", errors)
+    const errors = editingSet.dice.flatMap(validateDie)
 
     if (errors.length > 0) {
       // TODO: error toast
-      console.log(errors)
+      console.error(errors)
       return
     }
 
-    dispatch(DICE_SET_SAVE_EDIT_EVENT, { diceSet: set })
+    dispatch(DICE_SET_SAVE_EDIT_EVENT, { diceSet: editingSet })
   }
 
   function handleCancelClick() {
     dispatch(DICE_SET_CANCEL_EDIT_EVENT)
   }
+
+  function handleDieTypeCancel() {
+    editingDieType = null
+  }
 </script>
 
-<Textfield bind:value={set.name} label="Die set name" required />
+<Textfield bind:value={editingSet.name} label="Die set name" required />
 
 <DieTypeList
   showEditMode
-  {set}
+  set={editingSet}
   on:DiceSetDieTypeAdd={handleDiceSetDieTypeAdd}
   on:DiceSetDieTypeEdit={handleDiceSetDieTypeEdit}
   on:DiceSetDieTypeDelete={handleDiceSetDieTypeDelete}
 />
 
 {#if editingDieType}
-  <DieTypeEditor dieType={editingDieType} on:DiceSetDieTypeSave={handleDiceSetDieTypeSave} />
+  <DieTypeEditor
+    dieType={editingDieType}
+    on:DiceSetDieTypeSave={handleDiceSetDieTypeSave}
+    on:DiceSetDieTypeCancel={handleDieTypeCancel}
+  />
 {/if}
 
 <div class="display-vertical button-container gallery">

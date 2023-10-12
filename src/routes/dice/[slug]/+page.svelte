@@ -22,6 +22,7 @@
 
   async function handleSaveSet(e: CustomEvent<{ diceSet: DiceSet }>) {
     set = { ...e.detail.diceSet }
+
     const saveResult = await saveDiceSet(set)
     if (saveResult) {
       diceSetStore.set(saveResult)
