@@ -10,13 +10,23 @@
   $secondary: color.scale(#676778, $whiteness: -10%),
   $surface: color.adjust(color-palette.$grey-900, $blue: +4),
   $background: #000,
-  $error: color-palette.$red-700
+  $error: var(--roulette-error) //color-palette.$red-700
 );
 
 html,
 body {
   background-color: var(--roulette-cloth);
   color: theme.$on-surface;
+  font-family: var(--mdc-typography-button-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--roulette-cloth-text);
 }
 
 a {

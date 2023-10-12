@@ -18,7 +18,7 @@
   }
 </script>
 
-<h1>Dice set name:{set.name}</h1>
+<h1>{set.name}</h1>
 
 <h2>Dice Types:</h2>
 
@@ -32,3 +32,9 @@
     <Label>Delete</Label>
   </Button>
 </div>
+
+<style>
+  h1 {
+    text-align: center;
+  }
+</style>
