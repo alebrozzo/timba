@@ -20,20 +20,18 @@
   <Button
     variant="outlined"
     on:click={() => {
-      allRolls = [rollDice(set)]
-    }}
-  >
-    <Label>Start over</Label>
-  </Button>
-</div>
-<div class="display-vertical button-container gallery">
-  <Button
-    variant="outlined"
-    on:click={() => {
       allRolls = [...allRolls, rollDice(set)]
     }}
   >
     <Label>Roll again</Label>
+  </Button>
+  <Button
+    variant="outlined"
+    on:click={() => {
+      allRolls = [rollDice(set)]
+    }}
+  >
+    <Label>Start over</Label>
   </Button>
 </div>
 
