@@ -29,6 +29,16 @@ h6 {
   color: var(--roulette-cloth-text);
 }
 
+.mdc-button.mdc-button--raised:not(:disabled),
+.mdc-button.mdc-button--raised {
+  color: var(--roulette-cloth);
+  background-color: var(--roulette-cloth-text);
+}
+
+.timba-small-button {
+  font-size: small;
+}
+
 a {
   color: #40b3ff;
 }
