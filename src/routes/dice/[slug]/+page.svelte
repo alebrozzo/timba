@@ -7,8 +7,11 @@
   import { deleteDiceSet, saveDiceSet } from "$lib/stores/firestore"
   import type { DiceSet } from "$lib/types"
   import DiceSetEditor from "../diceSetEditor.svelte"
+  import DiceSetViewer from "../diceSetViewer.svelte"
 
   const { slug } = $page.params
+
+  let isEditingMode = false
 
   let set = getDiceSetBySlug($diceSetStore, slug)!
   if (!set) {
@@ -17,12 +20,12 @@
     //goto("/oops")
   }
 
-  async function handleSaveSet(set: DiceSet) {
+  async function handleSaveSet(e: CustomEvent<{ diceSet: DiceSet }>) {
+    set = { ...e.detail.diceSet }
     const saveResult = await saveDiceSet(set)
     if (saveResult) {
       diceSetStore.set(saveResult)
-      goto("/dice")
-      // TODO: redirect to slug page
+      isEditingMode = false
     }
 
     // TODO: error toast
@@ -42,19 +45,21 @@
   }
 </script>
 
-<div class="display-vertical button-container gallery">
-  <Button href="{set.slug || set.id}/play" variant="outlined">
-    <Label>Roll!</Label>
-  </Button>
-</div>
-
-<DiceSetEditor bind:set />
-
-<div class="display-vertical button-container gallery">
-  <Button variant="raised" on:click={async () => handleSaveSet(set)}>
-    <Label>Save</Label>
-  </Button>
-  <Button variant="raised" on:click={async () => handleDeleteSet(set.id ?? "")}>
-    <Label>Delete</Label>
-  </Button>
-</div>
+{#if !isEditingMode}
+  <div class="display-vertical button-container gallery">
+    <Button href="{set.slug || set.id}/play" variant="outlined">
+      <Label>Roll!</Label>
+    </Button>
+  </div>
+  <DiceSetViewer
+    {set}
+    on:DiceSetStartEdit={() => (isEditingMode = true)}
+    on:DiceSetDeleted={async () => handleDeleteSet(set.id ?? "")}
+  />
+{:else}
+  <DiceSetEditor
+    set={structuredClone(set)}
+    on:DiceSetCancelEdit={() => (isEditingMode = false)}
+    on:DiceSetSaveEdit={handleSaveSet}
+  />
+{/if}

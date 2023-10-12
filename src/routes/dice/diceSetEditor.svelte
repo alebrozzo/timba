@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { getDefaultDie } from "$lib/diceUtils"
+  import Button, { Label } from "@smui/button"
+  import { createEventDispatcher } from "svelte"
+  import { DICE_SET_CANCEL_EDIT_EVENT, DICE_SET_SAVE_EDIT_EVENT, getDefaultDie } from "$lib/diceUtils"
   import type { DiceSet, DieType } from "$lib/types"
   import DieTypeEditor from "./dieTypeEditor.svelte"
   import DieTypeList from "./dieTypeList.svelte"
@@ -34,8 +36,14 @@
     set = { ...set }
   }
 
-  $: {
-    console.log("updated set!", set)
+  const dispatch = createEventDispatcher()
+
+  function handleSaveClick() {
+    dispatch(DICE_SET_SAVE_EDIT_EVENT, { diceSet: set })
+  }
+
+  function handleCancelClick() {
+    dispatch(DICE_SET_CANCEL_EDIT_EVENT)
   }
 </script>
 
@@ -44,6 +52,7 @@
 <h2>Dice:</h2>
 
 <DieTypeList
+  showEditMode
   {set}
   on:DiceSetDieTypeAdd={handleDiceSetDieTypeAdd}
   on:DiceSetDieTypeEdit={handleDiceSetDieTypeEdit}
@@ -52,3 +61,12 @@
 {#if editingDieType}
   <DieTypeEditor dieType={editingDieType} on:DiceSetDieTypeSave={handleDiceSetDieTypeSave} />
 {/if}
+
+<div class="display-vertical button-container gallery">
+  <Button variant="raised" on:click={handleSaveClick}>
+    <Label>Save</Label>
+  </Button>
+  <Button variant="raised" on:click={handleCancelClick}>
+    <Label>Cancel</Label>
+  </Button>
+</div>
