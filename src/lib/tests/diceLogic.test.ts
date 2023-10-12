@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest"
-import { rollDice } from "$lib/diceLogic"
+import { describe, expect, it, test } from "vitest"
+import { rollDice, validateDie } from "$lib/diceLogic"
 import type { DiceSet } from "$lib/types"
 
 function getTestDiceSet(): DiceSet {
@@ -36,5 +36,23 @@ describe("rollDice", () => {
         expect(dieResult.rolledValue).toBeLessThanOrEqual(diceOfType.faces)
       }
     }
+  })
+})
+
+describe("validateDie", () => {
+  test("validates faces", () => {
+    expect(validateDie({ faces: 0, count: 1, id: "1", name: "D1" })).toEqual(["Faces must be a positive integer"])
+    expect(validateDie({ faces: 1.5, count: 1, id: "1", name: "D1" })).toEqual(["Faces must be a positive integer"])
+    expect(validateDie({ faces: -1, count: 1, id: "1", name: "D1" })).toEqual(["Faces must be a positive integer"])
+    expect(validateDie({ faces: 1, count: 1, id: "1", name: "D1" })).toEqual([])
+    expect(validateDie({ faces: 100, count: 1, id: "1", name: "D1" })).toEqual([])
+  })
+
+  test("validates count", () => {
+    expect(validateDie({ faces: 1, count: 0, id: "1", name: "D1" })).toEqual(["Count must be a positive integer"])
+    expect(validateDie({ faces: 1, count: 1.5, id: "1", name: "D1" })).toEqual(["Count must be a positive integer"])
+    expect(validateDie({ faces: 1, count: -1, id: "1", name: "D1" })).toEqual(["Count must be a positive integer"])
+    expect(validateDie({ faces: 1, count: 1, id: "1", name: "D1" })).toEqual([])
+    expect(validateDie({ faces: 1, count: 100, id: "1", name: "D1" })).toEqual([])
   })
 })

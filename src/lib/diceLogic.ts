@@ -29,3 +29,15 @@ export function rollDice(set: DiceSet): RollResult[] {
   }
   return rollResults
 }
+
+export function validateDie(dieType: DieType): string[] {
+  const errors: string[] = []
+  if (!dieType.faces || dieType.faces < 1 || !Number.isInteger(dieType.faces)) {
+    errors.push("Faces must be a positive integer")
+  }
+  if (!dieType.count || dieType.count < 1 || !Number.isInteger(dieType.count)) {
+    errors.push("Count must be a positive integer")
+  }
+
+  return errors
+}

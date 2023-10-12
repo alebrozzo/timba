@@ -3,6 +3,7 @@
   import Textfield from "@smui/textfield"
   import HelperText from "@smui/textfield/helper-text"
   import { createEventDispatcher } from "svelte"
+  import { validateDie } from "$lib/diceLogic"
   import { DICE_SET_DIE_TYPE_SAVE_EVENT } from "$lib/diceUtils"
   import type { DieType } from "$lib/types"
 
@@ -10,6 +11,13 @@
 
   const dispatch = createEventDispatcher()
   function saveDieType(dieType: DieType) {
+    const errors = validateDie(dieType)
+    if (errors.length > 0) {
+      // TODO: error toast
+      console.log(errors)
+      return
+    }
+
     dispatch(DICE_SET_DIE_TYPE_SAVE_EVENT, { dieType })
   }
 </script>
