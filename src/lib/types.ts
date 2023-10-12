@@ -8,7 +8,7 @@ export type DieType = {
   id?: string
   count: number
   faces: number
-  name?: string
+  name: string
 }
 
 export type TimbaSet = {

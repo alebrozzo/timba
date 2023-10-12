@@ -126,6 +126,6 @@ function toDieType(apiResult: ApiResponseDieTypeRow): DieType {
     id: apiResult.id,
     faces: apiResult.faces,
     count: apiResult.count,
-    name: apiResult.name ?? undefined,
+    name: apiResult.name,
   }
 }

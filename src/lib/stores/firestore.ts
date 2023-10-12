@@ -48,7 +48,7 @@ const dieTypeConverter = {
   toFirestore(dieType: DieType): DocumentData {
     return { ...dieType, name: dieType.name ?? "" }
   },
-  fromFirestore(data: DocumentData, id: string): DieType {
+  fromFirestore(data: DocumentData, id: string | number): DieType {
     return { faces: data.faces, count: data.count, name: data.name ?? "", id: id.toString() }
   },
 }

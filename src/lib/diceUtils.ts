@@ -1,7 +1,7 @@
 import type { DiceSet, DieType } from "$lib/types"
 
 export function getDefaultDie(): DieType {
-  return { faces: 6, count: 1 }
+  return { faces: 6, count: 1, name: "" }
 }
 
 export function getDiceSetBySlug(sets: DiceSet[], slug: DiceSet["slug"] | DiceSet["id"]): DiceSet | null {
