@@ -2,6 +2,7 @@
   import Button, { Label } from "@smui/button"
   import Textfield from "@smui/textfield"
   import { createEventDispatcher } from "svelte"
+  import { validateDie } from "$lib/diceLogic"
   import { DICE_SET_CANCEL_EDIT_EVENT, DICE_SET_SAVE_EDIT_EVENT, getDefaultDie } from "$lib/diceUtils"
   import type { DiceSet, DieType } from "$lib/types"
   import DieTypeEditor from "./dieTypeEditor.svelte"
@@ -11,15 +12,23 @@
   let editingDieType: DieType | null
 
   function handleDiceSetDieTypeSave(e: CustomEvent<{ dieType: DieType }>) {
-    const editedDieType = set.dice.find((d) => d.id === e.detail.dieType.id)
-    if (editedDieType) {
-      editedDieType.faces = e.detail.dieType.faces
-      editedDieType.count = e.detail.dieType.count
-      editedDieType.name = e.detail.dieType.name
-    } else {
-      set.dice.push(e.detail.dieType)
+    const receivedDieType = e.detail.dieType
+    const errors = validateDie(receivedDieType)
+    if (errors.length > 0) {
+      // TODO: error toast
+      console.log(errors)
+      return
     }
-    set = { ...set }
+
+    const editedDieType = set.dice.find((d) => d.id === receivedDieType.id)
+    if (editedDieType) {
+      editedDieType.faces = receivedDieType.faces
+      editedDieType.count = receivedDieType.count
+      editedDieType.name = receivedDieType.name
+    } else {
+      set.dice.push(receivedDieType)
+    }
+    set = structuredClone(set)
     editingDieType = null
   }
 
@@ -28,7 +37,6 @@
   }
 
   function handleDiceSetDieTypeEdit(e: CustomEvent<{ dieType: DieType }>) {
-    //editingDieType = set.dice.filter((d) => d.id === e.detail.dieType.id)
     editingDieType = e.detail.dieType
   }
 
@@ -40,6 +48,15 @@
   const dispatch = createEventDispatcher()
 
   function handleSaveClick() {
+    const errors = set.dice.flatMap(validateDie)
+    console.log("handleSaveClick", errors)
+
+    if (errors.length > 0) {
+      // TODO: error toast
+      console.log(errors)
+      return
+    }
+
     dispatch(DICE_SET_SAVE_EDIT_EVENT, { diceSet: set })
   }
 
