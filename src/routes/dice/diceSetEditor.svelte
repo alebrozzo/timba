@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button, { Label } from "@smui/button"
+  import Textfield from "@smui/textfield"
   import { createEventDispatcher } from "svelte"
   import { DICE_SET_CANCEL_EDIT_EVENT, DICE_SET_SAVE_EDIT_EVENT, getDefaultDie } from "$lib/diceUtils"
   import type { DiceSet, DieType } from "$lib/types"
@@ -47,9 +48,7 @@
   }
 </script>
 
-<label>Dice set name:<input type="text" maxlength="30" bind:value={set.name} /></label>
-
-<h2>Dice:</h2>
+<Textfield bind:value={set.name} label="Die set name" required />
 
 <DieTypeList
   showEditMode
@@ -58,6 +57,7 @@
   on:DiceSetDieTypeEdit={handleDiceSetDieTypeEdit}
   on:DiceSetDieTypeDelete={handleDiceSetDieTypeDelete}
 />
+
 {#if editingDieType}
   <DieTypeEditor dieType={editingDieType} on:DiceSetDieTypeSave={handleDiceSetDieTypeSave} />
 {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Button, { Label } from "@smui/button"
   import { createEventDispatcher } from "svelte"
   import {
     DICE_SET_DIE_TYPE_ADD_EVENT,
@@ -34,8 +35,12 @@
 <table>
   <thead>
     <tr>
-      <th>Faces</th><th>Count</th><th class={diceHaveNames ? "" : "hidden"}>Name</th><th class={getClass()} />
-      <th class={getClass()}><button on:click={() => addDieType()}>Add</button></th>
+      <th>Faces</th><th>Count</th><th class={diceHaveNames ? "" : "hidden"}>Name</th>
+      <th colspan="2" class={getClass()}>
+        <Button variant="raised" on:click={() => addDieType()}>
+          <Label class="timba-small-button">Add die type</Label>
+        </Button>
+      </th>
     </tr>
   </thead>
   <tbody>
