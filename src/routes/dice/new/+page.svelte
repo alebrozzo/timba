@@ -8,23 +8,19 @@
 
   let set: DiceSet = getNewSet()
 
-  async function handleSaveSet(set: DiceSet) {
+  async function handleSaveSet(e: CustomEvent<{ diceSet: DiceSet }>) {
+    set = { ...e.detail.diceSet }
     const saveResult = await saveDiceSet(set)
     if (saveResult) {
       diceSetStore.set(saveResult)
-      goto("/dice")
-      // TODO: redirect to slug page
     }
 
     // TODO: error toast
   }
 </script>
 
-<div class="button-container">
-  <a class="button" href="/">Home</a>
-  <a class="button" href="/dice">Back</a>
-</div>
-
-<DiceSetEditor bind:set />
-
-<div><button type="button" on:click={async () => handleSaveSet(set)}>Save</button></div>
+<DiceSetEditor
+  set={structuredClone(set)}
+  on:DiceSetCancelEdit={() => goto("/dice")}
+  on:DiceSetSaveEdit={handleSaveSet}
+/>
