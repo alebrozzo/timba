@@ -10,6 +10,8 @@
   export let set: DiceSet
   export let showEditMode = false
 
+  const diceHaveNames = set.dice.some((d) => !!d.name)
+
   const dispatch = createEventDispatcher()
 
   function addDieType() {
@@ -25,23 +27,23 @@
   }
 
   function getClass() {
-    return showEditMode ? "" : "readOnly"
+    return showEditMode ? "" : "hidden"
   }
 </script>
 
 <table>
   <thead>
     <tr>
-      <td>Faces</td><td>Count</td><td>Name</td><td class={getClass()} />
-      <td class={getClass()}><button on:click={() => addDieType()}>Add</button></td>
+      <th>Faces</th><th>Count</th><th class={diceHaveNames ? "" : "hidden"}>Name</th><th class={getClass()} />
+      <th class={getClass()}><button on:click={() => addDieType()}>Add</button></th>
     </tr>
   </thead>
   <tbody>
     {#each set.dice as dieType}
       <tr>
-        <td>{dieType.faces}</td>
-        <td>{dieType.count}</td>
-        <td>{dieType.name ?? ""}</td>
+        <td class="center">{dieType.faces}</td>
+        <td class="center">{dieType.count}</td>
+        <td class={diceHaveNames ? "" : "hidden"}>{dieType.name ?? ""}</td>
         <td class={getClass()}><button on:click={() => editDieType(dieType)}>✏️</button></td>
         <td class={getClass()}><button on:click={() => deleteDieType(dieType)}>🗑️</button></td>
       </tr>
@@ -50,7 +52,21 @@
 </table>
 
 <style>
-  .readOnly {
+  .hidden {
     display: none;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+
+  .center {
+    text-align: center;
   }
 </style>

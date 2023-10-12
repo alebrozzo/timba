@@ -20,8 +20,6 @@
 
 <h1>{set.name}</h1>
 
-<h2>Dice Types:</h2>
-
 <DieTypeList {set} />
 
 <div class="display-vertical button-container gallery">

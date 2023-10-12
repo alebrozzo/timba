@@ -8,7 +8,7 @@
     k: number
     icon: string
     label: string
-    url: string
+    url?: string
   }
   const key = (tab: TabEntry) => tab.k
 
@@ -23,13 +23,11 @@
       k: 2,
       icon: "♠",
       label: "Cards",
-      url: "/cards",
     },
     {
       k: 3,
       icon: "🔢",
       label: "Numbers",
-      url: "/numbers",
     },
   ]
   let active = tabs[0]
@@ -40,7 +38,7 @@
 </script>
 
 <TabBar {tabs} let:tab {key} bind:active>
-  <Tab {tab} stacked indicatorSpanOnlyContent tabIndicator$transition="fade" on:click={() => handleClick(tab.url)}>
+  <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url)} disabled={!tab.url}>
     <Icon class="material-icons">{tab.icon}</Icon>
     <Label>{tab.label}</Label>
   </Tab>
