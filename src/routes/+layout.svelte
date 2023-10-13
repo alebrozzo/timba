@@ -1,4 +1,5 @@
 <script lang="ts">
+  export const prerender = true
   import "../global.css"
   import Tab, { Icon, Label } from "@smui/tab"
   import TabBar from "@smui/tab-bar"
@@ -38,7 +39,13 @@
 </script>
 
 <TabBar {tabs} let:tab {key} bind:active>
-  <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url)} disabled={!tab.url}>
+  <Tab
+    {tab}
+    stacked
+    tabIndicator$transition="fade"
+    on:click={() => (tab.url ? handleClick(tab.url) : null)}
+    disabled={!tab.url}
+  >
     <Icon class="material-icons">{tab.icon}</Icon>
     <Label>{tab.label}</Label>
   </Tab>
