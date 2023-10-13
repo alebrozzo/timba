@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button, { Label } from "@smui/button"
+  import IconButton from "@smui/icon-button"
   import { createEventDispatcher } from "svelte"
   import {
     DICE_SET_DIE_TYPE_ADD_EVENT,
@@ -49,8 +50,16 @@
         <td class="center">{dieType.faces}</td>
         <td class="center">{dieType.count}</td>
         <td class={diceHaveNames ? "" : "hidden"}>{dieType.name ?? ""}</td>
-        <td class={getClass()}><button on:click={() => editDieType(dieType)}>✏️</button></td>
-        <td class={getClass()}><button on:click={() => deleteDieType(dieType)}>🗑️</button></td>
+        <td class={getClass()}>
+          <div class="table-button-container">
+            <IconButton class="material-icons" on:click={() => editDieType(dieType)}>edit</IconButton>
+          </div>
+        </td>
+        <td class={getClass()}>
+          <div class="table-button-container">
+            <IconButton class="material-icons" on:click={() => deleteDieType(dieType)}>delete</IconButton>
+          </div>
+        </td>
       </tr>
     {/each}
   </tbody>
@@ -73,5 +82,10 @@
 
   .center {
     text-align: center;
+  }
+
+  .table-button-container {
+    display: flex;
+    justify-content: center;
   }
 </style>
