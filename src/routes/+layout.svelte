@@ -5,8 +5,6 @@
   import { goto } from "$app/navigation"
   import { base } from "$app/paths"
 
-  export const prerender = true
-
   type TabEntry = {
     k: number
     icon: string
