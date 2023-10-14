@@ -64,9 +64,6 @@
 </TabBar>
 
 {#each active as dieResult}
-  <!-- {#if dieResult.dieType.name !== "" && dieResult.results.length === 1}
-<p>{dieResult.dieType.name}</p>
-{/if} -->
   {#if dieResult.results.length === 1}
     <p>
       {getSingleDieSingleResultValue(dieResult)}
