@@ -21,7 +21,6 @@
     const receivedDieType = e.detail.dieType
     const errors = validateDie(receivedDieType)
     if (errors.length > 0) {
-      // TODO: error toast
       console.error(errors)
       toastMessage = errors.join(". ")
       toast.open()

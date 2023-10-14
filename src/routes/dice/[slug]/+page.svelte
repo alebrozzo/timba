@@ -1,5 +1,7 @@
 <script lang="ts">
   import Button, { Label } from "@smui/button"
+  import IconButton from "@smui/icon-button"
+  import Snackbar, { Actions, Label as SnackLabel } from "@smui/snackbar"
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { getDiceSetBySlug } from "$lib/diceUtils"
@@ -12,6 +14,8 @@
   const { slug } = $page.params
 
   let isEditingMode = false
+  let toast: Snackbar
+  let toastMessage: string = ""
 
   let set = getDiceSetBySlug($diceSetStore, slug)!
   if (!set) {
@@ -24,21 +28,26 @@
     set = { ...e.detail.diceSet }
 
     const saveResult = await saveDiceSet(set)
-    if (saveResult) {
-      diceSetStore.set(saveResult)
-      isEditingMode = false
+    if (!saveResult) {
+      toastMessage = "Oops! Something went wrong but I'm not sure what! Please try again later."
+      toast.open()
+      return
     }
 
-    // TODO: error toast
+    diceSetStore.set(saveResult)
+    isEditingMode = false
   }
 
   async function handleDeleteSet(setId: NonNullable<DiceSet["id"]>) {
     const deleteResult = await deleteDiceSet(setId)
-    if (deleteResult) {
-      diceSetStore.set(deleteResult)
-      goto("/dice")
+    if (!deleteResult) {
+      toastMessage = "Oops! Something went wrong but I'm not sure what! Please try again later."
+      toast.open()
+      return
     }
-    // TODO: error toast
+
+    diceSetStore.set(deleteResult)
+    goto("/dice")
   }
 
   $: {
@@ -64,3 +73,10 @@
     on:DiceSetSaveEdit={handleSaveSet}
   />
 {/if}
+
+<Snackbar bind:this={toast} class="snackbar-error">
+  <SnackLabel>{toastMessage}</SnackLabel>
+  <Actions>
+    <IconButton class="material-icons" title="Dismiss">close</IconButton>
+  </Actions>
+</Snackbar>
