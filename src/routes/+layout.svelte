@@ -1,9 +1,11 @@
 <script lang="ts">
-  export const prerender = true
   import "../global.css"
   import Tab, { Icon, Label } from "@smui/tab"
   import TabBar from "@smui/tab-bar"
   import { goto } from "$app/navigation"
+  import { base } from "$app/paths"
+
+  export const prerender = true
 
   type TabEntry = {
     k: number
@@ -18,7 +20,7 @@
       k: 1,
       icon: "🎲",
       label: "Dice",
-      url: "/dice",
+      url: `${base}/dice`,
     },
     {
       k: 2,
