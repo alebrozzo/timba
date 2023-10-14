@@ -101,7 +101,7 @@
   </Button>
 </div>
 
-<Snackbar bind:this={toast} class="snackbar-error">
+<Snackbar bind:this={toast} class="snackbar-error" timeoutMs={10000}>
   <SnackLabel>{toastMessage}</SnackLabel>
   <Actions>
     <IconButton class="material-icons" title="Dismiss">close</IconButton>

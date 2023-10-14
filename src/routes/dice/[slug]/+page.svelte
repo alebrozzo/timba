@@ -58,6 +58,10 @@
     goto("/dice")
   }
 
+  $: if (isEditingMode && confirmToast?.isOpen()) {
+    confirmToast.close()
+  }
+
   $: {
     console.log("updated set!", set)
   }
