@@ -15,6 +15,6 @@ export function toDie(rows: Database["public"]["Tables"]["DieType"]["Row"][]): D
     id: row.id,
     faces: row.faces,
     count: row.count,
-    name: row.name ?? undefined,
+    name: row.name ?? "",
   }))
 }

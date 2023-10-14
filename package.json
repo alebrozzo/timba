@@ -14,6 +14,7 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
+    "supabase:types": "npx supabase gen types typescript --project-id jweexgzgaumlketmxyzp > src/lib/types.supabase.ts ",
     "prepare": "npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile static/smui.css -i src/theme -i node_modules/.pnpm/node_modules",
     "smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark -i node_modules/.pnpm/node_modules"
