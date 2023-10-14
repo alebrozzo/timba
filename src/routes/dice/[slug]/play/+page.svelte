@@ -17,6 +17,12 @@
 
   let allRolls = [rollDice(set)]
   let active = allRolls[0]
+
+  const markNewAsActive = () => {
+    setTimeout(() => {
+      active = allRolls[allRolls.length - 1]
+    })
+  }
 </script>
 
 <div class="display-vertical button-container gallery">
@@ -24,6 +30,7 @@
     variant="outlined"
     on:click={() => {
       allRolls = [...allRolls, rollDice(set)]
+      markNewAsActive()
     }}
   >
     <Label>Roll again</Label>
@@ -32,6 +39,7 @@
     variant="outlined"
     on:click={() => {
       allRolls = [rollDice(set)]
+      markNewAsActive()
     }}
   >
     <Label>Start over</Label>
@@ -40,7 +48,7 @@
 
 <TabBar tabs={allRolls} let:tab bind:active>
   <Tab {tab} minWidth>
-    <Label>Roll #{allRolls.indexOf(tab) + 1}</Label>
+    <TabLabel>Roll #{allRolls.indexOf(tab)}</TabLabel>
   </Tab>
 </TabBar>
 
