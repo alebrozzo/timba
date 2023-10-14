@@ -35,6 +35,27 @@ h6 {
   background-color: var(--roulette-cloth-text);
 }
 
+.mdc-snackbar.snackbar-success .mdc-snackbar__surface {
+  background-color: #4caf50;
+}
+.mdc-snackbar.snackbar-success .mdc-snackbar__label {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mdc-snackbar.snackbar-warning .mdc-snackbar__surface {
+  background-color: #ff9800;
+}
+.mdc-snackbar.snackbar-warning .mdc-snackbar__label {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mdc-snackbar.snackbar-error .mdc-snackbar__surface {
+  background-color: #f44336;
+}
+.mdc-snackbar.snackbar-error .mdc-snackbar__label {
+  color: white;
+}
+
 .timba-small-button {
   font-size: smaller;
 }

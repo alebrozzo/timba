@@ -1,5 +1,7 @@
 <script lang="ts">
   import Button, { Label } from "@smui/button"
+  import IconButton from "@smui/icon-button"
+  import Snackbar, { Actions, Label as SnackLabel } from "@smui/snackbar"
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { getDiceSetBySlug } from "$lib/diceUtils"
@@ -12,6 +14,10 @@
   const { slug } = $page.params
 
   let isEditingMode = false
+  let errorToast: Snackbar
+  let errorToastMessage: string = ""
+  let confirmToast: Snackbar
+  let confirmToastMessage: string = ""
 
   let set = getDiceSetBySlug($diceSetStore, slug)!
   if (!set) {
@@ -24,21 +30,36 @@
     set = { ...e.detail.diceSet }
 
     const saveResult = await saveDiceSet(set)
-    if (saveResult) {
-      diceSetStore.set(saveResult)
-      isEditingMode = false
+    if (!saveResult) {
+      errorToastMessage = "Oops! Something went wrong but I'm not sure what! Please try again later."
+      errorToast.open()
+      return
     }
 
-    // TODO: error toast
+    diceSetStore.set(saveResult)
+    isEditingMode = false
   }
 
-  async function handleDeleteSet(setId: NonNullable<DiceSet["id"]>) {
-    const deleteResult = await deleteDiceSet(setId)
-    if (deleteResult) {
-      diceSetStore.set(deleteResult)
-      goto("/dice")
+  function handleDeleteSet() {
+    // show toast confirmation
+    confirmToastMessage = `Are you sure you want to delete ${set.name}?`
+    confirmToast.open()
+  }
+
+  async function handleDeleteConfirmed(e: CustomEvent<{ reason: string | undefined }>) {
+    const deleteResult = await deleteDiceSet(set.id!)
+    if (!deleteResult) {
+      errorToastMessage = "Oops! Something went wrong but I'm not sure what! Please try again later."
+      errorToast.open()
+      return
     }
-    // TODO: error toast
+
+    diceSetStore.set(deleteResult)
+    goto("/dice")
+  }
+
+  $: if (isEditingMode && confirmToast?.isOpen()) {
+    confirmToast.close()
   }
 
   $: {
@@ -52,11 +73,7 @@
       <Label>Roll!</Label>
     </Button>
   </div>
-  <DiceSetViewer
-    {set}
-    on:DiceSetStartEdit={() => (isEditingMode = true)}
-    on:DiceSetDeleted={async () => handleDeleteSet(set.id ?? "")}
-  />
+  <DiceSetViewer {set} on:DiceSetStartEdit={() => (isEditingMode = true)} on:DiceSetDeleted={handleDeleteSet} />
 {:else}
   <DiceSetEditor
     set={structuredClone(set)}
@@ -64,3 +81,18 @@
     on:DiceSetSaveEdit={handleSaveSet}
   />
 {/if}
+
+<Snackbar bind:this={errorToast} class="snackbar-error">
+  <SnackLabel>{errorToastMessage}</SnackLabel>
+  <Actions>
+    <IconButton class="material-icons" title="Dismiss">close</IconButton>
+  </Actions>
+</Snackbar>
+
+<Snackbar variant="stacked" class="snackbar-warning" bind:this={confirmToast}>
+  <SnackLabel>{confirmToastMessage}</SnackLabel>
+  <Actions>
+    <Button on:click={handleDeleteConfirmed}>Accept</Button>
+    <Button>Cancel</Button>
+  </Actions>
+</Snackbar>

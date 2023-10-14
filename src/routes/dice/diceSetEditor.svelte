@@ -1,8 +1,10 @@
 <script lang="ts">
   import Button, { Label } from "@smui/button"
+  import IconButton from "@smui/icon-button"
+  import Snackbar, { Actions, Label as SnackLabel } from "@smui/snackbar"
   import Textfield from "@smui/textfield"
   import { createEventDispatcher } from "svelte"
-  import { validateDie } from "$lib/diceLogic"
+  import { validateDiceSet, validateDie } from "$lib/diceLogic"
   import { DICE_SET_CANCEL_EDIT_EVENT, DICE_SET_SAVE_EDIT_EVENT, getDefaultDie } from "$lib/diceUtils"
   import type { DiceSet, DieType } from "$lib/types"
   import DieTypeEditor from "./dieTypeEditor.svelte"
@@ -12,12 +14,16 @@
   let editingSet: DiceSet = structuredClone(set)
   let editingDieType: DieType | null
 
+  let toast: Snackbar
+  let toastMessage: string = ""
+
   function handleDiceSetDieTypeSave(e: CustomEvent<{ dieType: DieType }>) {
     const receivedDieType = e.detail.dieType
     const errors = validateDie(receivedDieType)
     if (errors.length > 0) {
-      // TODO: error toast
       console.error(errors)
+      toastMessage = errors.join(". ")
+      toast.open()
       return
     }
 
@@ -48,11 +54,11 @@
   const dispatch = createEventDispatcher()
 
   function handleSaveClick() {
-    const errors = editingSet.dice.flatMap(validateDie)
-
+    const errors = validateDiceSet(editingSet)
     if (errors.length > 0) {
-      // TODO: error toast
       console.error(errors)
+      toastMessage = errors.join(". ")
+      toast.open()
       return
     }
 
@@ -94,3 +100,10 @@
     <Label>Cancel</Label>
   </Button>
 </div>
+
+<Snackbar bind:this={toast} class="snackbar-error" timeoutMs={10000}>
+  <SnackLabel>{toastMessage}</SnackLabel>
+  <Actions>
+    <IconButton class="material-icons" title="Dismiss">close</IconButton>
+  </Actions>
+</Snackbar>
