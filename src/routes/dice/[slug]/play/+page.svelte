@@ -1,5 +1,7 @@
 <script lang="ts">
   import Button, { Label } from "@smui/button"
+  import Tab, { Label as TabLabel } from "@smui/tab"
+  import TabBar from "@smui/tab-bar"
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { rollDice } from "$lib/diceLogic"
@@ -14,6 +16,7 @@
   }
 
   let allRolls = [rollDice(set)]
+  let active = allRolls[0]
 </script>
 
 <div class="display-vertical button-container gallery">
@@ -35,15 +38,15 @@
   </Button>
 </div>
 
-<h2>Roll results:</h2>
+<TabBar tabs={allRolls} let:tab bind:active>
+  <Tab {tab} minWidth>
+    <Label>Roll #{allRolls.indexOf(tab) + 1}</Label>
+  </Tab>
+</TabBar>
 
-{#each allRolls as roll}
-  <hr />
-  Roll #{allRolls.indexOf(roll) + 1}
-  {#each roll as dieResult}
-    <p>Die: {dieResult.dieType.name ?? dieResult.dieType.faces + " faces"}</p>
-    {#each dieResult.results as die}
-      <p>#{die.dieIndex}: {die.rolledValue}</p>
-    {/each}
+{#each active as dieResult}
+  <p>Die: {dieResult.dieType.name ?? dieResult.dieType.faces + " faces"}</p>
+  {#each dieResult.results as die}
+    <p>#{die.dieIndex}: {die.rolledValue}</p>
   {/each}
 {/each}
