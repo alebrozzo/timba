@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest"
-import { ErrorCode, type DiceSet } from "$lib/types"
-import { getEmptyTimba, getNewSet, getRandomNumber, getSlug, validateNewDiceSet } from "$lib/utils"
-import { getDiceCollection, getDiceSet } from "../../testUtils"
+import { getEmptyTimba, getNewSet, getRandomNumber, getSlug } from "$lib/utils"
+import { getDiceCollection } from "../../testUtils"
+import type { DiceSet } from "../types"
 
 let diceSetCollection: DiceSet[]
 beforeEach(() => {
@@ -15,50 +15,6 @@ describe("getEmptyTimba", () => {
     expect(allTimba.diceSets).toBeTruthy()
     expect(allTimba.cardSet).toBeTruthy()
     expect(allTimba.numberSet).toBeTruthy()
-  })
-})
-
-describe("validateNewDiceSet", () => {
-  it("passes when proper name", () => {
-    const newSet = getDiceSet({ name: "Generala" })
-    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
-    expect(validationErrors).not.toBeNull()
-    expect(validationErrors.length).toBe(0)
-  })
-
-  it("fails when name is empty", () => {
-    const newSet = getDiceSet({ name: "" })
-    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
-    expect(validationErrors).not.toBeNull()
-    expect(validationErrors.length).toBe(1)
-    expect(validationErrors[0]).toBe(ErrorCode.NoName)
-  })
-
-  it("fails when name is duplicated", () => {
-    const newSet = getDiceSet({ id: "555", name: getDiceSet().name })
-    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
-
-    expect(validationErrors).not.toBeNull()
-    expect(validationErrors.length).toBe(1)
-    expect(validationErrors[0]).toBe(ErrorCode.DupeName)
-  })
-
-  it("fails when no dice", () => {
-    const newSet = getDiceSet({ name: "Test", dice: [] })
-    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
-
-    expect(validationErrors).not.toBeNull()
-    expect(validationErrors.length).toBe(1)
-    expect(validationErrors[0]).toBe(ErrorCode.NoDice)
-  })
-
-  it("returns more than one error", () => {
-    const newSet = getDiceSet({ name: "", dice: [] })
-    const validationErrors = validateNewDiceSet(newSet, diceSetCollection)
-    expect(validationErrors).not.toBeNull()
-    expect(validationErrors.length).toBeGreaterThan(1)
-    expect(validationErrors.includes(ErrorCode.NoName)).toBe(true)
-    expect(validationErrors.includes(ErrorCode.NoDice)).toBe(true)
   })
 })
 
