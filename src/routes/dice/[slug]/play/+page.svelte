@@ -68,7 +68,6 @@
     <p>
       {getSingleDieSingleResultValue(dieResult)}
     </p>
-    <p />
   {:else}
     <p>{getDieName(dieResult.dieType)} rolled</p>
     <ul>
