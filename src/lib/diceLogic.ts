@@ -41,3 +41,14 @@ export function validateDie(dieType: DieType): string[] {
 
   return errors
 }
+
+export function validateDiceSet(diceSet: DiceSet): string[] {
+  const errors: string[] = []
+  if (!diceSet.name) {
+    errors.push("Name is required")
+  }
+
+  errors.push(...diceSet.dice.flatMap(validateDie))
+
+  return errors
+}

@@ -4,7 +4,7 @@
   import Snackbar, { Actions, Label as SnackLabel } from "@smui/snackbar"
   import Textfield from "@smui/textfield"
   import { createEventDispatcher } from "svelte"
-  import { validateDie } from "$lib/diceLogic"
+  import { validateDiceSet, validateDie } from "$lib/diceLogic"
   import { DICE_SET_CANCEL_EDIT_EVENT, DICE_SET_SAVE_EDIT_EVENT, getDefaultDie } from "$lib/diceUtils"
   import type { DiceSet, DieType } from "$lib/types"
   import DieTypeEditor from "./dieTypeEditor.svelte"
@@ -54,7 +54,7 @@
   const dispatch = createEventDispatcher()
 
   function handleSaveClick() {
-    const errors = editingSet.dice.flatMap(validateDie)
+    const errors = validateDiceSet(editingSet)
     if (errors.length > 0) {
       console.error(errors)
       toastMessage = errors.join(". ")

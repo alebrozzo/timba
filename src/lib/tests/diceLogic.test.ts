@@ -1,5 +1,5 @@
 import { describe, expect, it, test } from "vitest"
-import { rollDice, validateDie } from "$lib/diceLogic"
+import { rollDice, validateDiceSet, validateDie } from "$lib/diceLogic"
 import type { DiceSet } from "$lib/types"
 
 function getTestDiceSet(): DiceSet {
@@ -54,5 +54,27 @@ describe("validateDie", () => {
     expect(validateDie({ faces: 1, count: -1, id: "1", name: "D1" })).toEqual(["Count must be a positive integer"])
     expect(validateDie({ faces: 1, count: 1, id: "1", name: "D1" })).toEqual([])
     expect(validateDie({ faces: 1, count: 100, id: "1", name: "D1" })).toEqual([])
+  })
+})
+
+describe("validateDiceSet", () => {
+  it("validates name", () => {
+    expect(validateDiceSet({ name: undefined!, dice: [], slug: "" })).toEqual(["Name is required"])
+    expect(validateDiceSet({ name: null!, dice: [], slug: "" })).toEqual(["Name is required"])
+    expect(validateDiceSet({ name: "", dice: [], slug: "" })).toEqual(["Name is required"])
+    expect(validateDiceSet({ name: "Test", dice: [], slug: "" })).toEqual([])
+  })
+
+  it("validates dice", () => {
+    expect(
+      validateDiceSet({
+        name: "Test",
+        dice: [
+          { faces: 10, count: 0, id: "1", name: "D1" },
+          { faces: -1, count: 1, id: "1", name: "D1" },
+        ],
+        slug: "",
+      })
+    ).toEqual(["Count must be a positive integer", "Faces must be a positive integer"])
   })
 })
