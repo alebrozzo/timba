@@ -2,12 +2,12 @@
   import Button, { Label } from "@smui/button"
   import Tab, { Label as TabLabel } from "@smui/tab"
   import TabBar from "@smui/tab-bar"
+  import { tick } from "svelte"
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
   import { rollDice, type RollResult } from "$lib/diceLogic"
   import { getDiceSetBySlug } from "$lib/diceUtils"
   import { diceSetStore } from "$lib/stores/diceStore"
-  import type { DieType } from "$lib/types"
 
   const { slug } = $page.params
   const set = getDiceSetBySlug($diceSetStore, slug)!
@@ -19,13 +19,18 @@
   let allRolls = [rollDice(set)]
   let active = allRolls[0]
 
-  const markNewAsActive = () => {
-    setTimeout(() => {
-      active = allRolls[allRolls.length - 1]
-    })
+  function startOver(): void {
+    allRolls = []
+    addNewRoll()
   }
 
-  function getDieName(dieType: DieType) {
+  async function addNewRoll() {
+    allRolls = [...allRolls, rollDice(set)]
+    await tick()
+    active = allRolls[allRolls.length - 1]
+  }
+
+  function getDieName(dieType: RollResult["dieType"]) {
     return !dieType.name ? "Die with " + dieType.faces + " faces" : dieType.name
   }
 
@@ -37,22 +42,10 @@
 </script>
 
 <div class="display-vertical button-container gallery">
-  <Button
-    variant="outlined"
-    on:click={() => {
-      allRolls = [...allRolls, rollDice(set)]
-      markNewAsActive()
-    }}
-  >
+  <Button variant="outlined" on:click={addNewRoll}>
     <Label>Roll again</Label>
   </Button>
-  <Button
-    variant="outlined"
-    on:click={() => {
-      allRolls = [rollDice(set)]
-      markNewAsActive()
-    }}
-  >
+  <Button variant="outlined" on:click={startOver}>
     <Label>Start over</Label>
   </Button>
 </div>
