@@ -3,6 +3,7 @@
   import Tab, { Icon, Label } from "@smui/tab"
   import TabBar from "@smui/tab-bar"
   import { goto } from "$app/navigation"
+  import { diceSetStore } from "$lib/stores/diceStore"
   import type { PageData } from "./dice/$types"
 
   type TabEntry = {
@@ -13,6 +14,9 @@
   }
 
   export let data: PageData
+  $: {
+    diceSetStore.set(data.diceSets)
+  }
 
   let tabs: TabEntry[] = [
     {
