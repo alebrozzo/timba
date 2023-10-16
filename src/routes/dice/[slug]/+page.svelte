@@ -39,7 +39,7 @@
     }
 
     isEditingMode = false
-    invalidate(LoadDepends.DiceSets)
+    await invalidate(LoadDepends.DiceSets)
   }
 
   function handleDeleteSet() {
@@ -56,17 +56,13 @@
       return
     }
 
-    invalidate(LoadDepends.DiceSets)
+    await invalidate(LoadDepends.DiceSets)
     await tick()
     goto("/dice")
   }
 
   $: if (isEditingMode && confirmToast?.isOpen()) {
     confirmToast.close()
-  }
-
-  $: {
-    console.log("updated set!", set)
   }
 </script>
 
