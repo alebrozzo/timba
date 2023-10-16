@@ -1,8 +1,9 @@
 <script lang="ts">
   import IconButton from "@smui/icon-button"
   import Snackbar, { Actions, Label as SnackLabel } from "@smui/snackbar"
-  import { goto } from "$app/navigation"
-  import { diceSetStore } from "$lib/stores/diceStore"
+  import { tick } from "svelte"
+  import { goto, invalidate } from "$app/navigation"
+  import { LoadDepends } from "$lib/const"
   import { saveDiceSet } from "$lib/stores/firestore"
   import type { DiceSet } from "$lib/types"
   import { getNewSet } from "$lib/utils"
@@ -22,7 +23,9 @@
       return
     }
 
-    diceSetStore.set(saveResult)
+    await invalidate(LoadDepends.DiceSets)
+    await tick()
+    goto("/dice")
   }
 </script>
 
