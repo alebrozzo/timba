@@ -3,6 +3,8 @@
   import Tab, { Icon, Label } from "@smui/tab"
   import TabBar from "@smui/tab-bar"
   import { goto } from "$app/navigation"
+  import { diceSetStore } from "$lib/stores/diceStore"
+  import type { PageData } from "./dice/$types"
 
   type TabEntry = {
     k: number
@@ -10,7 +12,11 @@
     label: string
     url?: string
   }
-  const key = (tab: TabEntry) => tab.k
+
+  export let data: PageData
+  $: {
+    diceSetStore.set(data.diceSets)
+  }
 
   let tabs: TabEntry[] = [
     {
@@ -37,7 +43,7 @@
   }
 </script>
 
-<TabBar {tabs} let:tab {key} bind:active>
+<TabBar {tabs} let:tab bind:active>
   <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url)} disabled={!tab.url}>
     <Icon class="material-icons">{tab.icon}</Icon>
     <Label>{tab.label}</Label>

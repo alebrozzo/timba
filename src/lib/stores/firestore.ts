@@ -62,7 +62,7 @@ const diceSetConverter = {
     return {
       id: snapshot.id,
       name: data.name,
-      slug: data.slug,
+      slug: data.slug ?? "",
       dice: data.dice.map((x: DieType, ix: number) => dieTypeConverter.fromFirestore(x, ix)),
     }
   },

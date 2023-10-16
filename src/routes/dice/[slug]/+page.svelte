@@ -2,8 +2,10 @@
   import Button, { Label } from "@smui/button"
   import IconButton from "@smui/icon-button"
   import Snackbar, { Actions, Label as SnackLabel } from "@smui/snackbar"
-  import { goto } from "$app/navigation"
+  import { tick } from "svelte"
+  import { goto, invalidate } from "$app/navigation"
   import { page } from "$app/stores"
+  import { LoadDepends } from "$lib/const"
   import { getDiceSetBySlug } from "$lib/diceUtils"
   import { diceSetStore } from "$lib/stores/diceStore"
   import { deleteDiceSet, saveDiceSet } from "$lib/stores/firestore"
@@ -36,8 +38,8 @@
       return
     }
 
-    diceSetStore.set(saveResult)
     isEditingMode = false
+    await invalidate(LoadDepends.DiceSets)
   }
 
   function handleDeleteSet() {
@@ -46,7 +48,7 @@
     confirmToast.open()
   }
 
-  async function handleDeleteConfirmed(e: CustomEvent<{ reason: string | undefined }>) {
+  async function handleDeleteConfirmed() {
     const deleteResult = await deleteDiceSet(set.id!)
     if (!deleteResult) {
       errorToastMessage = "Oops! Something went wrong but I'm not sure what! Please try again later."
@@ -54,16 +56,13 @@
       return
     }
 
-    diceSetStore.set(deleteResult)
+    await invalidate(LoadDepends.DiceSets)
+    await tick()
     goto("/dice")
   }
 
   $: if (isEditingMode && confirmToast?.isOpen()) {
     confirmToast.close()
-  }
-
-  $: {
-    console.log("updated set!", set)
   }
 </script>
 
