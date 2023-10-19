@@ -2,6 +2,7 @@
   import "../global.css"
   import Tab, { Icon, Label } from "@smui/tab"
   import TabBar from "@smui/tab-bar"
+  import { onMount } from "svelte"
   import { goto } from "$app/navigation"
   import { diceSetStore } from "$lib/stores/diceStore"
   import type { PageData } from "./dice/$types"
@@ -41,10 +42,14 @@
   function handleClick(url: string) {
     goto(url)
   }
+
+  onMount(() => {
+    goto("/dice")
+  })
 </script>
 
 <TabBar {tabs} let:tab bind:active>
-  <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url)} disabled={!tab.url}>
+  <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url ?? "/")} disabled={!tab.url}>
     <Icon class="material-icons">{tab.icon}</Icon>
     <Label>{tab.label}</Label>
   </Tab>
