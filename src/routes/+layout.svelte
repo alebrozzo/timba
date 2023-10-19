@@ -44,7 +44,7 @@
 </script>
 
 <TabBar {tabs} let:tab bind:active>
-  <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url)} disabled={!tab.url}>
+  <Tab {tab} stacked tabIndicator$transition="fade" on:click={() => handleClick(tab.url ?? "/")} disabled={!tab.url}>
     <Icon class="material-icons">{tab.icon}</Icon>
     <Label>{tab.label}</Label>
   </Tab>
