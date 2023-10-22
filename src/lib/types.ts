@@ -21,6 +21,12 @@ export type DiceSet = TimbaSet & {
   dice: DieType[]
 }
 
+export type DieRollResult = {
+  dieType: DieType
+  dieIndex: number
+  value: number
+}
+
 export enum ErrorCode {
   "NoName",
   "DupeName",
