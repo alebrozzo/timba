@@ -52,4 +52,4 @@ So there I went, created a new account with my free $200 credit for a month, and
 
 ## Next steps
 
-So this has been the first "I am learning how to deploy to the cloud" step. I want Timba to have many more features, for starters _not every user should be able to create, edit and delete dice sets_. I have the feeling that if I can use firestore's auth abilities I would still be able to get away with static site, but eventually I will need to make it all dynamic. Even if not necessary, I want to learn different alternatives of application deployment, Timba is just an excuse, or rather, a carrot for this donkey.
+So this has been the first "I am learning how to deploy to the cloud" step. I want Timba to have many more features, for starters some sort of user creation to allow for each user to have their own private sets. I have the feeling that if I can use firestore's auth abilities I would still be able to get away with a static site, but eventually I will need to make it all dynamic. Even if not necessary, I want to learn different alternatives of application deployment, Timba is just an excuse, or rather, a carrot for this donkey.
